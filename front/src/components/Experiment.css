@@ -23,3 +23,58 @@ body {
 stimuli {
     font-size: xx-large;
 }
+
+.instruction {
+    text-align: center;
+    margin-bottom: 50px
+}
+
+.comment {
+    font-size: large;
+    margin: 20px;
+}
+
+.bold {
+    font-weight: 700;
+    font-size: x-large
+}
+
+
+.status {
+    display: flex;
+    justify-content: space-between;
+    width: 650px;
+    color: gray
+}
+
+.choiceSet {
+    display: flex;
+    justify-content: space-between;
+    width: 500px
+}
+
+.choiceBox {
+    align-items: center;
+    border: 0.1em solid;
+    border-color: black;
+    border-radius: 12%;
+    padding: 30px;
+}
+
+.choice {
+    text-align: center;
+    font-size: xx-large;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.keyPress {
+    text-align: center;
+    font-size: small;
+    color: gray
+}
+
+crosshair {
+    font-size: xx-large;
+    font-weight: bolder;
+}
