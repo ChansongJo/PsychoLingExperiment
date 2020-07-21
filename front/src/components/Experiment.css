@@ -1,0 +1,25 @@
+header {
+    background-color: #f1f9ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body {
+    background-color: #f1f9ff;
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: black;
+}
+
+.link {
+    color: #61dafb;
+}
+
+stimuli {
+    font-size: xx-large;
+}
