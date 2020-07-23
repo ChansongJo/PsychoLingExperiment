@@ -17,6 +17,8 @@ import {
     Visibility,
     Modal
 } from 'semantic-ui-react';
+import {Link, Route, BrowserRouter as Router, Redirect, Switch} from 'react-router-dom';
+
 import {act} from 'react-dom/test-utils';
 
 // Heads up!
@@ -55,9 +57,9 @@ const HomepageHeading = ({mobile}) => (
                 marginTop: mobile ? '0.5em' : '1.5em',
             }}
         />
-        <Button primary size='huge'>
+        <Button primary size='huge' as={Link} to={'some-id-1234/true'}>
             Get Started
-      <Icon name='right arrow' />
+        <Icon name='right arrow' />
         </Button>
     </Container>
 );
@@ -212,7 +214,6 @@ ExperimentModal.propTypes = {
 };
 
 const HomepageLayout = () => {
-    const [practiceOn, setPracticeOn] = useState(false);
     return (
         <ResponsiveContainer>
             <Segment style={{padding: '8em 0em'}} vertical>
