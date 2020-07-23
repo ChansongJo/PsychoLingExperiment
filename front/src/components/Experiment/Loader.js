@@ -2,43 +2,43 @@ import React, {useState, useEffect} from "react";
 import {useParams, useHistory} from 'react-router-dom';
 import InitExperiment from "./Procedures";
 import {Clock} from "./utils";
+import {ExperimentContext} from "../../models/ExperimentContext"
 import './Experiment.css';
 
 export default function Experiment() {
     const {id, mode} = useParams();
     const [pointer, setPointer] = useState(0);
-    const [allDone, setAllDone] = useState(false);
+    const [trialDone, setTrialDone] = useState(false);
     const sentenceList = [
         "철수는 어제 학교에 갔다가 그냥 돌아왔다",
         "영희는 그런 철수가 한심하게 느껴졌다",
         "오늘 서울의 날씨는 비가 올 예정임"
     ];
-    const stimulusSet = sentenceList.map(item => {
+    const stimulusSet = sentenceList.map((item, idx) => {
         return {
-            sentence: item.split(' '),
+            sentence: item,
             isGrammatical: true,
-            isFiller: true
+            isFiller: true,
+            id: idx,
         };
     });
-    const [stimulus, setStimulus] = useState([]);
+    const [context, setContext] = useState(null);
 
     // BE 통신 부로 변경 예정
     // FOR DEBUG
-    const getNewSentence = () => {
-        const stimulus = stimulusSet[pointer];
+    const getNewContext = () => {
+        const _context = new ExperimentContext({stimulus: stimulusSet[pointer], trialLength: 3, trialNumber: pointer + 1});
         setPointer(pointer + 1);
-        if (stimulus !== undefined) {
-            setStimulus(stimulus);
-        } else {
-            setStimulus({isExperimentEnd: true});
+        if (_context !== undefined) {
+            setContext(_context);
         }
     };
 
     useEffect(
         () => {
-            getNewSentence();
-            setAllDone(false);
-        }, [allDone]
+            getNewContext();
+            setTrialDone(false);
+        }, [trialDone]
     );
 
     return (
@@ -51,7 +51,7 @@ export default function Experiment() {
                 </div>
             </div >
             <div className='experiment-body'>
-                <InitExperiment stimulus={stimulus} setAllDone={setAllDone} />
+                {context !== null && <InitExperiment context={context} setTrialDone={setTrialDone} />}
             </div>
         </>
     );

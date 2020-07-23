@@ -10,12 +10,11 @@ const CHOICE_KEY = ["ArrowRight", "ArrowLeft"];
 
 const InitExperiment = (props) => {
     const [done, setDone] = useState(false);
+    const isExperimentEnd = props.context.isExperimentEnd
 
     useEffect(
         () => {
-            console.log(props.stimulus.isExperimentEnd);
-            if (!props.stimulus.isExperimentEnd) {
-                console.log('start timer');
+            if (!isExperimentEnd) {
                 const timer1 = setTimeout(() => setDone(true), 1500);
                 return () => clearTimeout(timer1);
             }
@@ -30,7 +29,7 @@ const InitExperiment = (props) => {
     );
     return (
         <>
-            {!props.stimulus.isExperimentEnd
+            {!isExperimentEnd
                 ?
                 !done ? <crosshair>+</crosshair>
                     : <Reading {...props} />
@@ -42,26 +41,25 @@ const InitExperiment = (props) => {
 
 
 const Reading = (props) => {
-    console.log(props);
-    const {sentence} = props.stimulus;
+    const context = props.context
+
+    const {sentence} = context.stimulus;
     const maskedSentence = sentence.map(item => "__".repeat(item.length));
     const [renderedSentence, setRenderedSentence] = useState(maskedSentence);
     const [pointer, setPointer] = useState(0);
     const [done, setDone] = useState(false);
 
-    const spacebarHandler = event => {
-        const key = event.key;
-        console.log(key, pointer);
-        console.log(event.timeStamp);
 
+    const spacebarHandler = ({key, timeStamp}) => {
         if (PROGRESS_KEY.includes(String(key)) && !done) {
-            console.log(sentence);
+            context.rawRT.push(timeStamp)
             if (pointer < sentence.length) {
                 let _temp = [...maskedSentence];
                 _temp[pointer] = sentence[pointer];
                 setRenderedSentence(_temp);
                 setPointer(pointer + 1);
             } else {
+                context.validateReactionTime()
                 setDone(true);
             }
         }
@@ -82,41 +80,27 @@ const Reading = (props) => {
     );
 };
 
-const Final = (props) => {
-    return (
-        <div>FINISHED</div>
-    );
-};
 
 const JudgementTest = (props) => {
-    const [isCorrect, setIsCorrect] = useState(null);
     const [keyResponse, setKeyResponse] = useState(null);
-    const setDone = props.setAllDone;
+    const [answer, setAnswer] = useState(null)
+    const setDone = props.setTrialDone;
 
-    const keyPressHandler = ({key}) => {
-        console.log(key);
-        console.log(props);
-        if (isCorrect === null && CHOICE_KEY.includes(String(key))) {
-            const answer = String(key) === 'ArrowLeft' ? true : false;
+    const context = props.context
+
+    const keyPressHandler = ({key, timeStamp}) => {
+        if (answer === null && CHOICE_KEY.includes(String(key))) {
+            context.judgementEndTimeStamp = timeStamp
+            setAnswer(String(key) === 'ArrowLeft' ? true : false)
             setKeyResponse(String(key));
-            if (answer === props.stimulus.isGrammatical) {
-                setIsCorrect(true);
-            } else {
-                setIsCorrect(false);
-            }
-        } else if (isCorrect !== null && PROGRESS_KEY.includes(String(key))) {
+        } else if (answer !== null && PROGRESS_KEY.includes(String(key))) {
+            context.setJudgementTestResult(answer)
+            console.log('trialResult', context.__obj)
             setDone(true);
         }
     };
 
     useEventListener("keydown", keyPressHandler);
-    const ShowCorrect = () => {
-        return (
-            <>
-                <div style={{marginTop: "20px"}}> Space Bar 를 눌러 다음 문장으로 진행하세요.</div>
-            </>
-        );
-    };
 
     return (
         <>
@@ -144,6 +128,13 @@ const JudgementTest = (props) => {
                 </div>
             </div>
         </>
+    );
+};
+
+
+const Final = (props) => {
+    return (
+        <div>FINISHED</div>
     );
 };
 

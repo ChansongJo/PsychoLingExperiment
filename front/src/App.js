@@ -9,8 +9,8 @@ function App() {
     <Router basename="/main">
       <Switch>
         <Route path='/' exact component={MainPage} />
-        <Route path='/experiment/:id/:mode' exact component={Experiment} />
-        <Route path='/experiment/:id' exact component={Instruction} />
+        <Route path='/exp/:id/:mode' exact component={Experiment} />
+        <Route path='/exp/:id' exact component={Instruction} />
       </Switch>
     </Router>
   );

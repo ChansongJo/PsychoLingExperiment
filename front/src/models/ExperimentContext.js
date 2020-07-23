@@ -28,6 +28,7 @@ export class ExperimentContext extends Model {
     constructor(data) {
         super(data);
         this.stimulus = new Stimulus(this.getFromPath('stimulus'));
+        this.rawRT = []
     }
 
     get sessionId() {
@@ -50,22 +51,45 @@ export class ExperimentContext extends Model {
         return this.getFromPath('trialNumber');
     }
 
-    set reactionTime(v) {
-        if (v.length + 1 !== this.stimulus.sentence.length) {
-            throw ('The length of RT array is inCorrect!!!');
+    get trialLength() {
+        return this.getFromPath('trialLength')
+    }
+
+    get isExperimentEnd() {
+        return this.trialLength === this.trialNumber
+    }
+
+    set judgementStartTimeStamp(v) {
+        this.__obj['judgementStartTimeStamp'] = v
+    }
+
+    get judgementStartTimeStamp() {
+        return this.__obj['judgementStartTimeStamp']
+    }
+
+    set judgementEndTimeStamp(v) {
+        this.__obj['judgementEndTimeStamp'] = v
+    }
+
+    get judgementEndTimeStamp() {
+        return this.__obj['judgementEndTimeStamp']
+    }
+
+    validateReactionTime() {
+        const rawRT = this.rawRT
+        if (rawRT.length !== this.stimulus.sentence.length + 1) {
+            console.log(rawRT)
+            throw ('The length of RT array is inCorrect!!!', this.stimulus.sentence);
         } else {
-            this.__obj['reactionTimeAbsolute'] = v;
-            const initial = v[0];
-            this.__obj['reactionTime'] = v.map(item => item - initial);
+            this.__obj['reactionTimeAbsolute'] = rawRT;
+            const initial = rawRT[0];
+            this.__obj['reactionTime'] = rawRT.map(item => item - initial);
         }
     }
 
-    set isCorrect(subjectAnswer) {
+    setJudgementTestResult(subjectAnswer) {
         this.__obj['isCorrect'] = subjectAnswer === this.stimulus.isGrammatical;
-    }
-
-    setJudgementTestRT(start, end) {
-        this.__obj['judgementTestRT'] = end - start;
+        this.__obj['judgementTestRT'] = this.judgementEndTimeStamp - this.rawRT[this.rawRT.length - 1];
     }
 
 }
