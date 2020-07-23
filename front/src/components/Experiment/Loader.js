@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
 import {useParams, useHistory} from 'react-router-dom';
-import InitExperiment from "./ExpProcedures";
-import {Clock} from "./utils"
+import InitExperiment from "./Procedures";
+import {Clock} from "./utils";
 import './Experiment.css';
 
 export default function Experiment() {
-    const {id} = useParams();
+    const {id, mode} = useParams();
     const [pointer, setPointer] = useState(0);
     const [allDone, setAllDone] = useState(false);
     const sentenceList = [
@@ -18,8 +18,8 @@ export default function Experiment() {
             sentence: item.split(' '),
             isGrammatical: true,
             isFiller: true
-        }
-    })
+        };
+    });
     const [stimulus, setStimulus] = useState([]);
 
     // BE 통신 부로 변경 예정
@@ -30,7 +30,7 @@ export default function Experiment() {
         if (stimulus !== undefined) {
             setStimulus(stimulus);
         } else {
-            setStimulus({isExperimentEnd: true})
+            setStimulus({isExperimentEnd: true});
         }
     };
 
@@ -43,16 +43,16 @@ export default function Experiment() {
 
     return (
         <>
-            <header>
+            <div className='experiment-header'>
                 <div className="status" >
                     <Clock />
-                    <span>Test Trial</span>
+                    <span>{mode}</span>
                     <span> session-id : {id}</span>
                 </div>
-            </header >
-            <body>
+            </div >
+            <div className='experiment-body'>
                 <InitExperiment stimulus={stimulus} setAllDone={setAllDone} />
-            </body>
+            </div>
         </>
     );
 }

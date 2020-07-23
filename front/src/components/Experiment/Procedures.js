@@ -5,6 +5,7 @@ import "./Experiment.css";
 // https://github.com/donavon/use-event-listener
 
 const PROGRESS_KEY = [" "];
+const CHOICE_KEY = ["ArrowRight", "ArrowLeft"];
 
 
 const InitExperiment = (props) => {
@@ -12,7 +13,7 @@ const InitExperiment = (props) => {
 
     useEffect(
         () => {
-            console.log(props.stimulus.isExperimentEnd)
+            console.log(props.stimulus.isExperimentEnd);
             if (!props.stimulus.isExperimentEnd) {
                 console.log('start timer');
                 const timer1 = setTimeout(() => setDone(true), 1500);
@@ -41,9 +42,9 @@ const InitExperiment = (props) => {
 
 
 const Reading = (props) => {
-    console.log(props)
-    const {sentence} = props.stimulus
-    const maskedSentence = sentence.map(item => "__".repeat(item.length))
+    console.log(props);
+    const {sentence} = props.stimulus;
+    const maskedSentence = sentence.map(item => "__".repeat(item.length));
     const [renderedSentence, setRenderedSentence] = useState(maskedSentence);
     const [pointer, setPointer] = useState(0);
     const [done, setDone] = useState(false);
@@ -88,35 +89,34 @@ const Final = (props) => {
 };
 
 const JudgementTest = (props) => {
-    const [isCorrect, setIsCorrect] = useState(null)
-    const [answer, setAnswer] = useState(null)
+    const [isCorrect, setIsCorrect] = useState(null);
+    const [keyResponse, setKeyResponse] = useState(null);
     const setDone = props.setAllDone;
 
     const keyPressHandler = ({key}) => {
-        console.log(key)
-        console.log(props)
-        if (isCorrect === null) {
-            const raw_answer = String(key) === 'ArrowLeft' ? true : false
-            setAnswer(String(key))
-            if (raw_answer === props.stimulus.isGrammatical) {
-                setIsCorrect(true)
+        console.log(key);
+        console.log(props);
+        if (isCorrect === null && CHOICE_KEY.includes(String(key))) {
+            const answer = String(key) === 'ArrowLeft' ? true : false;
+            setKeyResponse(String(key));
+            if (answer === props.stimulus.isGrammatical) {
+                setIsCorrect(true);
             } else {
-                setIsCorrect(false)
+                setIsCorrect(false);
             }
-        } else if (PROGRESS_KEY.includes(String(key))) {
-            setDone(true)
+        } else if (isCorrect !== null && PROGRESS_KEY.includes(String(key))) {
+            setDone(true);
         }
-    }
+    };
 
     useEventListener("keydown", keyPressHandler);
     const ShowCorrect = () => {
         return (
             <>
-                <div style={{marginTop: "40px"}}> {isCorrect ? "정답입니다." : "오답입니다."}</div>
                 <div style={{marginTop: "20px"}}> Space Bar 를 눌러 다음 문장으로 진행하세요.</div>
             </>
-        )
-    }
+        );
+    };
 
     return (
         <>
@@ -125,7 +125,7 @@ const JudgementTest = (props) => {
                 <div className="comment">키보드로 보기 O / X 를 선택하고 Space Bar를 눌러 다음으로 진행하세요.</div>
             </div>
             <div className="choiceSet">
-                <div className="choiceBox" style={{backgroundColor: answer === 'ArrowLeft' ? 'chartreuse' : null}}>
+                <div className="choiceBox" style={{backgroundColor: keyResponse === 'ArrowLeft' ? 'chartreuse' : null}}>
                     <div className='choice'>
                         O
                             </div>
@@ -135,7 +135,7 @@ const JudgementTest = (props) => {
                     }}>←</div>
                     <div className="keyPress">왼쪽 화살표 키를 눌러 선택하세요</div>
                 </div>
-                <div className="choiceBox" style={{backgroundColor: answer === 'ArrowRight' ? 'tomato' : null}}>
+                <div className="choiceBox" style={{backgroundColor: keyResponse === 'ArrowRight' ? 'tomato' : null}}>
                     <div className='choice'>
                         X
                             </div>
@@ -143,13 +143,11 @@ const JudgementTest = (props) => {
                     <div className="keyPress">오른쪽 화살표 키를 눌러 선택하세요</div>
                 </div>
             </div>
-            {isCorrect !== null && <ShowCorrect />}
-
         </>
-    )
-}
+    );
+};
 
-export default InitExperiment
+export default InitExperiment;
 
 
 

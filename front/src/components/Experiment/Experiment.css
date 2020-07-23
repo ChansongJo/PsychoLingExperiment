@@ -1,11 +1,11 @@
-header {
+.experiment-header {
     background-color: #f1f9ff;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-body {
+.experiment-body {
     background-color: #f1f9ff;
     min-height: 75vh;
     display: flex;
@@ -38,7 +38,6 @@ stimuli {
     font-weight: 700;
     font-size: x-large
 }
-
 
 .status {
     display: flex;
