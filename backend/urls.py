@@ -17,10 +17,17 @@ from django.contrib import admin
 from django.urls import re_path, path, include
 from django.views.generic import TemplateView
 
-urlpatterns = [
-    path(r'', TemplateView.as_view(template_name="index.html")),
 
-    re_path(r'exp/.*', TemplateView.as_view(template_name="index.html")),
+from django.views.generic import TemplateView
+from django.views.decorators.cache import never_cache
+
+# Serve Single Page Application
+index = never_cache(TemplateView.as_view(template_name='index.html'))
+
+urlpatterns = [
+    path(r'', index, name='home'),
+
+    re_path(r'exp/.*', index),
 
     path('admin/', admin.site.urls),
     path(r'api-auth/', include('rest_framework.urls')),
