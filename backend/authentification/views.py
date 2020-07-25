@@ -8,19 +8,19 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework_jwt.settings import api_settings
-from rest_framework_mongoengine import viewsets, serializers
+
 
 from django.contrib.admin.views.decorators import staff_member_required
 
 from backend.authentification.forms import SignUpForm
 from backend.authentification.models import User
 from backend.authentification.serializers import UserSerializer
-from django_mongoengine.mongo_auth.models import User as BaseUser
+
 
 # JWT Authentication for Django Rest Framework and MongoDB
 # https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a 참고
 
-
+'''
 @api_view(['GET'])
 def current_user(request):
     if isinstance(request.user, BaseUser):
@@ -96,3 +96,4 @@ class UserListViewSet(viewsets.ModelViewSet):
         """
         permission_classes = [permissions.IsAdminUser]
         return [permission() for permission in permission_classes]
+'''
