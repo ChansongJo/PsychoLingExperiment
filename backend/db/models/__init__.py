@@ -25,20 +25,19 @@ class Stimulus(models.Model):
     ))
 
 
-class ExperimentResult(models.Model):
+class Trial(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['order', 'subject'], name="experiment-order")
+        ]
+
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    random_seed = models.IntegerField()
-    createdAt = models.DateTimeField(auto_now=True)
-    updatedAt = models.DateTimeField(auto_now=True, auto_now_add=True)
-    trial_results = fields.ArrayField(
-        models.ForeignKey(TrialResult, on_delete=models.CASCADE))
-
-
-class TrialResult(models.Model):
     judgement_result = models.BooleanField()
     judgement_reaction_time = models.FloatField()
     reaction_time = fields.ArrayField(models.FloatField())
     reaction_time_absolute = fields.ArrayField(models.FloatField())
-    id = models.ForeignKey(Stimulus, , on_delete=models.DO_NOTHING)
+    stimlus = models.ForeignKey(Stimulus, on_delete=models.DO_NOTHING)
+    subject = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
+    order = models.IntegerField()

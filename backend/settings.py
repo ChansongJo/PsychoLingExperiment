@@ -40,13 +40,11 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'rest_framework',
-    'django_mongoengine',
-    'django_mongoengine.mongo_auth',
-    'django_mongoengine.mongo_admin',
 
     # my apps
     'backend.api',
-    'backend.authentification'
+    'backend.authentification',
+    'backend.db'
 ]
 
 REST_FRAMEWORK = {
@@ -106,34 +104,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': None
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'psycho-ling-test',
+        'USER': 'chansong',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
 DATA_DB_NAME = 'psycho-ling'
-
-# MongoDB settings
-MONGO_AUTH = {
-    'username': 'admin',
-    'password': '3Ou25zUkGNHGkkgU',
-    'authentication_source': 'admin'
-}
-
-MONGODB_DATABASES = {
-    'default': {
-        'name': DATA_DB_NAME,
-        'host': f"mongodb+srv://{MONGO_AUTH['username']}:{MONGO_AUTH['password']}@cluster0.loq9b.gcp.mongodb.net/{DATA_DB_NAME}?retryWrites=true&w=majority"
-    },
-}
-
-AUTH_USER_MODEL = 'mongo_auth.MongoUser'
-
-AUTHENTICATION_BACKENDS = (
-    'django_mongoengine.mongo_auth.backends.MongoEngineBackend',
-)
-
-SESSION_ENGINE = 'django_mongoengine.sessions'
-SESSION_SERIALIZER = 'django_mongoengine.sessions.BSONSerializer'
 
 
 # Password validation
