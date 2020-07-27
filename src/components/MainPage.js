@@ -13,12 +13,14 @@ import {
     Responsive,
     Segment,
     Visibility,
-    Modal
+    Modal,
+    Confirm
 } from 'semantic-ui-react';
 import {Link, Route, BrowserRouter as Router, Redirect, Switch} from 'react-router-dom';
 import "./MainPage.css"
 
 import {act} from 'react-dom/test-utils';
+import {get, findLastIndex} from 'lodash';
 
 // Heads up!
 // We using React Static to prerender our docs with server side rendering, this is a quite simple solution.
@@ -27,6 +29,15 @@ import {act} from 'react-dom/test-utils';
 /* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
  * such things.
  */
+
+const getWidth = () => {
+    const isSSR = typeof window === 'undefined'
+
+    return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+}
+
+
+
 const Body = ({mobile = false}) => (
 
     <Segment vertical style={{padding: '0em 0em'}}>
@@ -76,12 +87,33 @@ Body.propTypes = {
 };
 
 
+const DesktopContainer = ({children}) => (
+    <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+
+        {children}
+    </Responsive>
+)
+const MobileContainer = ({children}) => (
+    <Responsive getWidth={getWidth} maxWidth={Responsive.onlyMobile.maxWidth} >
+
+        <Container text>
+            <Segment style={{display: 'flex', margin: '30vh 2rem', justifyContent: 'center', verticalAlign: 'middle'}} >
+                <Header as='h1'>
+                    본 페이지는 모바일 환경을 지원하지 않습니다. <br />
+                PC 환경에서 접속해주세요.
+                </Header>
+            </Segment>
+
+        </Container>
+    </Responsive>
+)
 
 
 
 const ResponsiveContainer = ({children}) => (
     <div>
-        <Responsive>{children}</Responsive>
+        <DesktopContainer>{children}</DesktopContainer>
+        <MobileContainer>{children}</MobileContainer>
     </div>
 )
 
