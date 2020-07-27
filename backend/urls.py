@@ -33,10 +33,12 @@ router.register(r'trials', TrialViewSet, basename='experiment')
 index = never_cache(TemplateView.as_view(template_name='index.html'))
 
 urlpatterns = [
-    path(r'data/', include(router.urls)),
 
     path(r'', index, name='home'),
     re_path(r'exp/.*', index),
+
+
+    path(r'data/', include(router.urls)),
 
     path('admin/', admin.site.urls),
     path(r'api-auth/', include('rest_framework.urls')),

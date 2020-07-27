@@ -48,7 +48,7 @@ const foreign_options = [
 ]
 const Enroll = () => {
     return (
-        <Container text style={{marginTop: '2em', fontSize: 'large'}}>
+        <Container text style={{marginTop: '2em', fontSize: 'large', backgroudImage: "file://./build/img1.jpg"}}>
             <Segment style={{padding: '1em'}}>
                 <Header as={'h1'}>
                     실험 참가 동의서
