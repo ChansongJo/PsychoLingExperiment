@@ -105,7 +105,7 @@ const JudgementTest = (props) => {
     return (
         <>
             <div className="instruction">
-                <div className="comment bold">제시 되었던 문장의 자연스러움을 평가해 주세요.</div>
+                <div className="comment bold">제시되었던 문장의 자연스러움을 평가해 주세요.</div>
                 <div className="comment">키보드로 보기 O / X 를 선택하고 Space Bar를 눌러 다음으로 진행하세요.</div>
             </div>
             <div className="choiceSet">
@@ -113,17 +113,14 @@ const JudgementTest = (props) => {
                     <div className='choice'>
                         O
                             </div>
-                    <div className="keyPress" style={{
-                        fontSize: 'x-large',
-                        fontWeight: 'bold'
-                    }}>←</div>
+                    <div className="keyPress symbol">←</div>
                     <div className="keyPress">왼쪽 화살표 키를 눌러 선택하세요</div>
                 </div>
                 <div className="choiceBox" style={{backgroundColor: keyResponse === 'ArrowRight' ? 'tomato' : null}}>
                     <div className='choice'>
                         X
                             </div>
-                    <div className="keyPress" style={{fontSize: 'x-large', fontWeight: 'bold'}}>→</div>
+                    <div className="keyPress symbol">→</div>
                     <div className="keyPress">오른쪽 화살표 키를 눌러 선택하세요</div>
                 </div>
             </div>
@@ -134,7 +131,7 @@ const JudgementTest = (props) => {
 
 const Final = (props) => {
     return (
-        <div>FINISHED</div>
+        <div>FINISHED (인사말 작업해야함)</div>
     );
 };
 

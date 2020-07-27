@@ -45,8 +45,6 @@ export default function Experiment() {
         <>
             <div className='experiment-header'>
                 <div className="status" >
-                    <Clock />
-                    <span>{mode}</span>
                     <span> session-id : {id}</span>
                 </div>
             </div >
