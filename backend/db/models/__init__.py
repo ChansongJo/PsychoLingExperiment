@@ -6,12 +6,17 @@ import uuid
 class Subject(models.Model):
     name = models.CharField(max_length=32)
     age = models.IntegerField()
-    sex = models.CharField(max_length=1, choices=(
+    birthdate = models.CharField(max_length=10)
+    gender = models.CharField(max_length=1, choices=(
         ('m', 'male'), ('f', 'female'), ('o', 'other')))
     academic_background = models.CharField(max_length=128)
     email = models.EmailField()
     session_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
+    foreign_experience = models.CharField(max_length=128, choices=(
+        ('no', '없음'), ('less_1year', '1년 미만'), ('more_1year', '1년 이상')
+    ))
+    foreign_experience_country = models.CharField(max_length=128, blank=True)
 
 
 class Stimulus(models.Model):

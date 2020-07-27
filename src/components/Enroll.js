@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useForm, Controller} from "react-hook-form"
+import {useHistory} from "react-router-dom"
 import {
     Button,
     Container,
@@ -12,7 +13,8 @@ import {
     Select,
     Dropdown
 } from 'semantic-ui-react';
-import {set} from 'lodash';
+import {postUserData} from "../api"
+import {SubjectModel} from "../models/Subject"
 
 const gender_options = [
     {key: 'm', text: '남성', value: 'm'},
@@ -21,17 +23,17 @@ const gender_options = [
 ]
 
 const academic_options = [
-    {key: 'q', text: '고등학교', value: 'hs'},
-    {key: 'e', text: '대학교', value: 'b'},
-    {key: 'r', text: '석사', value: 'm'},
-    {key: 'r', text: '박사', value: 'd'},
+    {key: 'q', text: '고등학교', value: 'highschool'},
+    {key: 'e', text: '대학교', value: 'bachelor'},
+    {key: 'r', text: '석사', value: 'master'},
+    {key: 'r', text: '박사', value: 'doctor'},
 ]
 
 
 const academic_status = [
-    {key: 'q', text: '재학', value: '재학'},
-    {key: 'e', text: '졸업', value: '졸업'},
-    {key: 'f', text: '기타', value: '기타'},
+    {key: 'q', text: '재학', value: 'ongoing'},
+    {key: 'e', text: '졸업', value: 'graduate'},
+    {key: 'f', text: '기타', value: 'other'},
 ]
 
 const foreign_options = [
@@ -43,9 +45,22 @@ const foreign_options = [
 const Enroll = () => {
     const {control, handleSubmit, reset, errors, setValue, register, getValues} = useForm()
     const [renderQ, setRenderQ] = useState(false)
+    const history = useHistory()
 
-    const onSubmit = (...args) => {
-        console.log(args)
+    const onSubmit = async (data) => {
+        const payload = new SubjectModel(data).payload
+        await postUserData(payload).then(
+            res => {
+                console.log(res)
+
+                alert(`실험 세션이 성공적으로 생성되었습니다. <${res.data.session_id}>`)
+                // 링크 이동
+                history.push(`/${res.data.session_id}`)
+            }
+
+        ).catch(e => {
+            alert('문제가 발생했습니다. \n 다시 시도해도 문제가 지속해서 발생하면 관리자에게 문의해주세요!')
+        })
         return null
     }
 
@@ -111,11 +126,11 @@ const Enroll = () => {
                             rules={{required: true}}
                             name='name' />
                         <Controller
-                            as={<Form.Input placeholder='930101' label='생년월일' error={errorHandler(errors.birthdate)} />}
+                            as={<Form.Input placeholder='1996-01-01' label='생년월일' error={errorHandler(errors.birthdate)} />}
                             control={control}
                             rules={{
                                 required: true,
-                                pattern: /\d{6}/
+                                pattern: /\d{4}-\d{2}-\d{2}/
                             }}
                             name='birthdate' />
                         <Controller
@@ -180,9 +195,9 @@ const Enroll = () => {
 
 
                         <Controller
-                            as={<Form.Input placeholder='전공' width={1} disabled={getValues('academic_degree') === 'hs'} error={errorHandler(errors.academic_major)} />}
+                            as={<Form.Input placeholder='전공' width={1} disabled={getValues('academic_degree') === 'highschool'} error={errorHandler(errors.academic_major)} />}
                             control={control}
-                            rules={{required: getValues('academic_degree') !== 'hs'}}
+                            rules={{required: getValues('academic_degree') !== 'highschool'}}
                             name='academic_major' />
 
                     </Form.Group>
@@ -205,12 +220,12 @@ const Enroll = () => {
                                 />
                             )} />
                         <Controller
-                            as={<Form.Input placeholder='국가' disabled={getValues('foreign_experience') !== 'more_1year'} error={errorHandler(errors.foreign_nation)} />}
+                            as={<Form.Input placeholder='국가' disabled={getValues('foreign_experience') !== 'more_1year'} error={errorHandler(errors.foreign_experience_nation)} />}
                             control={control}
                             rules={{
                                 required: (getValues('foreign_experience') === 'more_1year')
                             }}
-                            name='foreign_nation' />
+                            name='foreign_experience_nation' />
                     </Form.Group>
                     <Divider style={{margin: '2em'}} />
                     <Header as={'h3'}>실험 동의</Header>

@@ -22,7 +22,9 @@ import {
 // 연습 진행 (modal or scroll)
 // 본실험 (Link 이동 mode real로)
 function Instruction() {
-    return <div></div>;
+    return <div>
+        Instruction MockUP
+    </div>;
 }
 
 export default Instruction;
