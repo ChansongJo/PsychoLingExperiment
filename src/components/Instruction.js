@@ -20,7 +20,7 @@ import PropTypes from "prop-types"
 
 const ExperimentModal = ({trigger}) => {
     return (
-        <Modal trigger={trigger}>
+        <Modal trigger={trigger} size='fullscreen' closeIcon>
             <Modal.Content>
                 <Experiment />
             </Modal.Content>
@@ -38,13 +38,14 @@ function Instruction() {
     const [excersizeClicked, setExcersizeClicked] = useState(false)
     return (
         <div>
-            <Container text style={{margin: '1em 0', fontSize: '3em'}} >
+            <Container text style={{margin: '2em 0', fontSize: '3em'}} >
+
                 <Segment style={{padding: '1.3em'}}>
                     <Header as={'h1'} textAlign='center'>실험 안내</Header>
                     <Header as={'h2'}>
                         연구 목적
                         <Header.Subheader style={{marginTop: '1em'}}>
-                            <p style={{lineHeight: '1.5em', fontSize: '1.2rem'}}>
+                            <p style={{lineHeight: '1.5em', fontSize: '1.2rem', padding: '0 1em'}}>
                                 본 실험은 한국어 화자가 한국어의 문장/구문을 읽으면서 반응하는 과정을 실시간으로 관찰합니다.
                             </p>
                         </Header.Subheader>
@@ -52,15 +53,17 @@ function Instruction() {
                     <Header as={'h2'}>
                         실험 설계
                         <Header.Subheader style={{marginTop: '1em'}}>
-                            <p style={{lineHeight: '1.5em', fontSize: '1.2rem'}}>
-                                실험 참여자는 문장을 읽으면서 반응을 합니다. 이 실험은 참여자의 한국어 문법 능력을 평가하기 위한 검사가 아닙니다. 제시된 읽기 자료들이 이해 되는대로 반응하고, 반응한 후에는 “SPACE BAR”를 눌러 다음 화면을 보면 됩니다.
+                            <p style={{lineHeight: '1.5em', fontSize: '1.2rem', padding: '0 1em'}}>
+                                실험 참여자는 문장을 읽으면서 반응을 합니다. <br />
+                                <br />
+                                이 실험은 참여자의 한국어 문법 능력을 평가하기 위한 검사가 아닙니다. 제시된 읽기 자료들이 이해 되는대로 반응하고, 반응한 후에는 “SPACE BAR”를 눌러 다음 화면을 보면 됩니다.
                             </p>
                         </Header.Subheader>
                     </Header>
                     <Header as={'h2'}>
                         실험 절차
                         <Header.Subheader style={{marginTop: '1em'}}>
-                            <p style={{lineHeight: '1.5em', fontSize: '1.2rem'}}>
+                            <p style={{lineHeight: '1.5em', fontSize: '1.2rem', padding: '0 1em'}}>
                                 <ol>
                                     <li>처음 화면 스크린에 "+" 표시가 나타납니다.</li>
                                     <li>잠시 후 화면이 바뀌면 빈 문장이 나타납니다.</li>
@@ -81,8 +84,7 @@ function Instruction() {
                         연습 해보기
                         <Header.Subheader style={{marginTop: '1em'}}>
                             <p style={{lineHeight: '1.5em', fontSize: '1.2rem', padding: '0 1em'}}>
-                                아래 버튼을 클릭하여 실험 연습을 진행해 보세요.<br />
-                                연습 결과는 실험 결과에 포함되지 않으므로 실험 방식이 숙지 될때까지 여러번 시도해 보셔도 괜찮습니다. <br />
+                                아래 버튼을 클릭하여 실험 연습을 진행해 보세요. 연습 결과는 실험 결과에 포함되지 않으므로 실험 방식이 이해될 때까지 여러번 시도해 보셔도 괜찮습니다. <br />
                                 <br />
                                 연습을 진행하지 않으면 본 실험으로 넘어갈 수 없습니다!<br />
                             </p>

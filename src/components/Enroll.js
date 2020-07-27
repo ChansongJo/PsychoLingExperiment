@@ -102,7 +102,7 @@ const Enroll = () => {
         }, [renderQ]
     )
     return (
-        <Container text style={{marginTop: '1em', fontSize: '3em'}} >
+        <Container text style={{margin: '2em 0', fontSize: '3em'}} >
             <Segment style={{padding: '1.3em'}}>
                 <Header as={'h1'}>
                     실험 참가 동의서
