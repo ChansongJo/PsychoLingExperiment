@@ -35,6 +35,7 @@ ExperimentModal.propTypes = {
 
 function Instruction() {
     const {id} = useParams()
+    const [excersizeClicked, setExcersizeClicked] = useState(false)
     return (
         <div>
             <Container text style={{margin: '1em 0', fontSize: '3em'}} >
@@ -87,7 +88,9 @@ function Instruction() {
                             </p>
                         </Header.Subheader>
                         <div style={{marginTop: '1em', display: 'flex', justifyContent: 'center'}}>
-                            <ExperimentModal trigger={<Button size='huge' color='green'>연습하기</Button>} />
+                            <ExperimentModal trigger={<Button size='huge' color='green' onClick={
+                                () => setExcersizeClicked(true)
+                            }>연습하기</Button>} />
                         </div>
                     </Header>
                     <Header as={'h2'}>
@@ -102,7 +105,7 @@ function Instruction() {
                             </p>
                         </Header.Subheader>
                         <div style={{marginTop: '1em', display: 'flex', justifyContent: 'center'}}>
-                            <Button size='huge' primary as={Link} to={`/${id}/run`}>실험 시작하기</Button>
+                            <Button disabled={!excersizeClicked} size='huge' primary as={Link} to={`/${id}/run`}>실험 시작하기</Button>
                         </div>
                     </Header>
 
