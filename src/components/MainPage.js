@@ -44,7 +44,7 @@ const Body = ({mobile = false}) => (
                         </div>
                         <div class="studyDetail centered">
                             실험 기간 | 2020.07.15 ~ 2020.08.15 <br />
-                    문의 사항 | duagmltjs@sogang.ac.kr
+                    문의 사항 | 염희선 / duagmltjs@sogang.ac.kr (수정예정)
                     </div>
                     </div>
 
@@ -59,11 +59,10 @@ const Body = ({mobile = false}) => (
                                 아래 시작하기 버튼을 눌러 실험 동의서 페이지로 이동해 주세요. <br />
                         </p>
                         <br />
-
-
-
-                        <button class="startButton">시작하기</button>
                     </div>
+                    <Button as={Link} to="/enroll" size='huge' primary >
+                        시작하기
+                    </Button>
 
                 </Grid.Column>
             </Grid.Row>
