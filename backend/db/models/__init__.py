@@ -18,6 +18,9 @@ class Subject(models.Model):
     ))
     foreign_experience_country = models.CharField(max_length=128, blank=True)
 
+    def __str__(self):
+        return f'{self.session_id} - {self.age} - {self.gender }'
+
 
 class Stimulus(models.Model):
     id = models.UUIDField(
@@ -29,7 +32,9 @@ class Stimulus(models.Model):
         ('direct', 'Direct'),
         ('indirect', "Indirect")
     ))
-    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.sentence
 
 
 class Trial(models.Model):
@@ -45,6 +50,11 @@ class Trial(models.Model):
     judgement_reaction_time = models.FloatField()
     reaction_time = fields.ArrayField(models.FloatField())
     reaction_time_absolute = fields.ArrayField(models.FloatField())
-    stimlus = models.ForeignKey(Stimulus, on_delete=models.PROTECT)
+    stimulus = models.ForeignKey(Stimulus, on_delete=models.PROTECT)
     subject = models.ForeignKey(Subject, on_delete=models.PROTECT)
     order = models.IntegerField()
+
+    exp_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Trial: {self.id} / {self.subject} / {self.sentence}"

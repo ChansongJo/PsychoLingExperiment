@@ -22,7 +22,7 @@ const ExperimentModal = ({trigger}) => {
     return (
         <Modal trigger={trigger} size='fullscreen' closeIcon>
             <Modal.Content>
-                <Experiment />
+                <Experiment mode='practice' />
             </Modal.Content>
         </Modal>
     );

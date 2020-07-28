@@ -43,8 +43,8 @@ function TrialLoop({stimulusSet}) {
     );
 }
 
-export default function Experiment() {
-    const {id, mode} = useParams();
+export default function Experiment({mode = 'real'}) {
+    const {id} = useParams();
     const [stimulusSet, setStimulusSet] = useState(null)
     const [valid, setValid] = useState(false)
     const history = useHistory()

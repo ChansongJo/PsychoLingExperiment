@@ -17,7 +17,7 @@ function App() {
       <Switch>
         <Route path='/' exact component={HomePage} />
         <Route path='/enroll' exact component={Enroll} />
-        <Route path='/:id/:mode' exact component={Experiment} />
+        <Route path='/:id/run' exact component={Experiment} />
         <Route path='/:id' exact component={Instruction} />
         <Route component={Page404} />
       </Switch>
