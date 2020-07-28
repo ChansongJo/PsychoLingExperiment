@@ -24,10 +24,12 @@ class Stimulus(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     sentence = models.CharField(max_length=128)
     is_grammatical = models.BooleanField()
-    sentence_type = models.CharField(max_length=2, choices=(
-        ('FL', 'Filler'),
-        ('RL', 'Real')
+    type = models.CharField(max_length=10, choices=(
+        ('filler', 'Filler'),
+        ('direct', 'Direct'),
+        ('indirect', "Indirect")
     ))
+    active = models.BooleanField(default=True)
 
 
 class Trial(models.Model):
@@ -43,6 +45,6 @@ class Trial(models.Model):
     judgement_reaction_time = models.FloatField()
     reaction_time = fields.ArrayField(models.FloatField())
     reaction_time_absolute = fields.ArrayField(models.FloatField())
-    stimlus = models.ForeignKey(Stimulus, on_delete=models.DO_NOTHING)
-    subject = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
+    stimlus = models.ForeignKey(Stimulus, on_delete=models.PROTECT)
+    subject = models.ForeignKey(Subject, on_delete=models.PROTECT)
     order = models.IntegerField()
