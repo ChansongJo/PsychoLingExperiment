@@ -3,6 +3,7 @@ import {useParams, useHistory} from 'react-router-dom';
 import InitExperiment from "./Procedures";
 import {Clock} from "./utils";
 import {ExperimentContext} from "../../models/ExperimentContext"
+import * as Api from "../../api"
 import './Experiment.css';
 
 function TrialLoop({stimulusSet}) {
@@ -18,6 +19,7 @@ function TrialLoop({stimulusSet}) {
     useEffect(
         () => {
             if (trialDone === true) {
+                console.log(stimulusSet)
                 const stimulus = stimulusSet.pop()
                 let _context
                 if (stimulus !== undefined) {
@@ -43,19 +45,56 @@ function TrialLoop({stimulusSet}) {
 
 export default function Experiment() {
     const {id, mode} = useParams();
+    const [stimulusSet, setStimulusSet] = useState(null)
+    const [valid, setValid] = useState(false)
+    const history = useHistory()
     const sentenceList = [
         "철수는 어제 학교에 갔다가 그냥 돌아왔다",
         "영희는 그런 철수가 한심하게 느껴졌다",
         "오늘 서울의 날씨는 비가 올 예정임"
     ];
-    const stimulusSet = sentenceList.map((item, idx) => {
+    const PracticeStimulusSet = sentenceList.map((item, idx) => {
         return {
             sentence: item,
-            isGrammatical: true,
-            isFiller: true,
+            is_grammatical: true,
+            type: true,
             id: idx,
         };
-    });
+    }).reverse();
+
+    const fetchStimuli = async () => {
+        await Api.getStimuli({id}).then(
+            res => {
+                console.log(res.data)
+                setStimulusSet(res.data.stimuli)
+            }
+        ).catch(e => console.log(e))
+    }
+    const validateUser = async (id) => {
+        await Api.getUser({id}).then(
+            setValid(true)
+        ).catch(
+            e => {
+                console.log(e.response)
+                alert('유효하지 않은 session_id입니다. 실험을 진행할 수 없습니다!')
+                history.push('/')
+            }
+        )
+    }
+
+    useEffect(
+        () => {
+            validateUser(id)
+
+            if (mode === 'practice') {
+                setStimulusSet(PracticeStimulusSet)
+            } else if (valid) {
+                fetchStimuli()
+                console.log(stimulusSet)
+            }
+        }, [valid]
+    )
+
 
     return (
         <>
@@ -64,7 +103,7 @@ export default function Experiment() {
                     <span> session-id : {id}</span>
                 </div>
             </div >
-            <TrialLoop stimulusSet={stimulusSet} />
+            {stimulusSet !== null && < TrialLoop stimulusSet={[...stimulusSet]} />}
 
         </>
     )

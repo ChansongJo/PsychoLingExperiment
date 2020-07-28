@@ -1,5 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from backend.db.views.serializers import TrialSerailizer, SubjectSerailizer, StimulusSerailizer
+import random
 import json
 
 
@@ -33,7 +36,20 @@ class StimulusViewSet(GenericViewSet):
     serializer_class = StimulusSerailizer
 
     def get_queryset(self):
-        return super().get_queryset()
+        # cf. https://www.django-rest-framework.org/api-guide/filtering/#filtering-against-query-parameters
+        queryset = self.serializer_class.Meta.model.objects.all()
+        get_all = self.request.query_params.get('get_all', None)
+        if get_all:
+            return queryset
+        else:
+            return queryset.filter(active=True)
+
+    @action(['GET', ], detail=False)
+    def generate_stimulus_set(self, request):
+        stimuli = list(self.get_queryset().order_by('id').values())
+        seed = hash(request.query_params.get('id', '1234')[-4:])
+        random.Random(seed).shuffle(stimuli)
+        return Response({'seed': seed, 'stimuli': stimuli})
 
 
 class SubjectViewSet(GenericViewSet):

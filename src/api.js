@@ -21,6 +21,13 @@ export const generateQueryParams = (paramsObject) => {
 };
 
 export const postUserData = (data, params = {}) => {
-    console.log(getHeader())
     return axios.post(`/data/subjects/${generateQueryParams(params)}`, data, {headers: getHeader()})
+}
+
+export const getStimuli = (params) => {
+    return axios.get(`/data/stimulus/generate_stimulus_set/?${generateQueryParams(params)}`, {headers: getHeader()})
+}
+
+export const getUser = ({id}) => {
+    return axios.get(`/data/subjects/${id}`, {headers: getHeader()})
 }
