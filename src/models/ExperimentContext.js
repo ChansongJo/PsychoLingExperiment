@@ -47,18 +47,6 @@ export class ExperimentContext extends Model {
         return this.getFromPath('judgementTestRT');
     }
 
-    get trialNumber() {
-        return this.getFromPath('trialNumber');
-    }
-
-    get trialLength() {
-        return this.getFromPath('trialLength')
-    }
-
-    get isExperimentEnd() {
-        return this.trialLength === this.trialNumber
-    }
-
     set judgementStartTimeStamp(v) {
         this.__obj['judgementStartTimeStamp'] = v
     }
