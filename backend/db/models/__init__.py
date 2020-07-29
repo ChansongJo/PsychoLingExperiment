@@ -41,7 +41,7 @@ class Trial(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['order', 'subject'], name="experiment-order")
+                fields=['order', 'session_id'], name="experiment-order")
         ]
 
     id = models.UUIDField(
@@ -51,9 +51,8 @@ class Trial(models.Model):
     reaction_time = fields.ArrayField(models.FloatField())
     reaction_time_absolute = fields.ArrayField(models.FloatField())
     stimulus = models.ForeignKey(Stimulus, on_delete=models.PROTECT)
-    subject = models.ForeignKey(Subject, on_delete=models.PROTECT)
+    session_id = models.ForeignKey(Subject, on_delete=models.PROTECT)
     order = models.IntegerField()
-
     exp_date = models.DateField(auto_now_add=True)
 
     def __str__(self):

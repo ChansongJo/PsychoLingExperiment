@@ -30,6 +30,14 @@ class TrialViewSet(GenericViewSet):
 
         return queryset
 
+    @action(['PUT', ], detail=False)
+    def bulk_upload(self, request):
+        data = request.data
+        serializer = self.serializer_class(data=data, many=True)
+        serializer.is_valid(raise_exception=True)
+        res = serializer.save()
+        return Response(res)
+
 
 class StimulusViewSet(GenericViewSet):
     lookup_field = 'id'
@@ -38,11 +46,7 @@ class StimulusViewSet(GenericViewSet):
     def get_queryset(self):
         # cf. https://www.django-rest-framework.org/api-guide/filtering/#filtering-against-query-parameters
         queryset = self.serializer_class.Meta.model.objects.all()
-        get_all = self.request.query_params.get('get_all', None)
-        if get_all:
-            return queryset
-        else:
-            return queryset.filter(active=True)
+        return queryset
 
     @action(['GET', ], detail=False)
     def generate_stimulus_set(self, request):

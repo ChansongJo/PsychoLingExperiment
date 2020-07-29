@@ -24,7 +24,7 @@ class StimulusResource(resources.ModelResource):
 @ admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin):
     resource_class = TrialResource
-    list_filter = ('subject', 'exp_date', 'stimulus')
+    list_filter = ('session_id', 'exp_date')
 
 
 @ admin.register(Subject)
