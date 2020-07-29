@@ -10,11 +10,7 @@ export class Stimulus extends Model {
     }
 
     get isGrammatical() {
-        return this.getFromPath('isGrammatical');
-    }
-
-    get isFiller() {
-        return this.getFromPath('isFiller');
+        return this.getFromPath('is_grammatical');
     }
 
     get id() {
@@ -32,19 +28,19 @@ export class ExperimentContext extends Model {
     }
 
     get sessionId() {
-        return this.getFromPath('sessionId');
+        return this.getFromPath('session_id');
     }
 
     get reactionTime() {
-        return this.getFromPath('reationTime');
+        return this.getFromPath('reaction_time');
     }
 
     get isCorrect() {
-        return this.getFromPath('isCorrect');
+        return this.getFromPath('judgement_result');
     }
 
     get judgementTestRT() {
-        return this.getFromPath('judgementTestRT');
+        return this.getFromPath('judgement_reaction_time');
     }
 
     set judgementStartTimeStamp(v) {
@@ -59,6 +55,10 @@ export class ExperimentContext extends Model {
         this.__obj['judgementEndTimeStamp'] = v
     }
 
+    set order(v) {
+        this.__obj['order'] = v
+    }
+
     get judgementEndTimeStamp() {
         return this.__obj['judgementEndTimeStamp']
     }
@@ -69,15 +69,15 @@ export class ExperimentContext extends Model {
             console.log(rawRT)
             throw ('The length of RT array is inCorrect!!!', this.stimulus.sentence);
         } else {
-            this.__obj['reactionTimeAbsolute'] = rawRT;
+            this.__obj['reaction_time_absolute'] = rawRT;
             const initial = rawRT[0];
-            this.__obj['reactionTime'] = rawRT.map(item => item - initial);
+            this.__obj['reaction_time'] = rawRT.map(item => item - initial);
         }
     }
 
     setJudgementTestResult(subjectAnswer) {
-        this.__obj['isCorrect'] = subjectAnswer === this.stimulus.isGrammatical;
-        this.__obj['judgementTestRT'] = this.judgementEndTimeStamp - this.rawRT[this.rawRT.length - 1];
+        this.__obj['judgement_result'] = subjectAnswer === this.stimulus.isGrammatical;
+        this.__obj['judgement_reaction_time'] = this.judgementEndTimeStamp - this.rawRT[this.rawRT.length - 1];
     }
 
 }
