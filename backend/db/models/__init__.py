@@ -22,6 +22,13 @@ class Subject(models.Model):
     def __str__(self):
         return f'{self.session_id} - {self.age} - {self.gender }'
 
+    def to_representation(self):
+        return [str(self.session_id), self.age, self.gender, self.academic_background, self.foreign_experience]
+
+    def get_representation_columns(self):
+        return ['id', 'age', 'gender',
+                'academic_background', 'foriegn_experience']
+
 
 class Stimulus(models.Model):
     id = models.UUIDField(
@@ -36,6 +43,12 @@ class Stimulus(models.Model):
 
     def __str__(self):
         return self.sentence
+
+    def to_representation(self):
+        return [str(self.id), self.sentence, self.is_grammatical, self.type]
+
+    def get_representation_columns(self):
+        return ['id', 'sentence', 'is_grammatical', 'type']
 
 
 class Trial(models.Model):
