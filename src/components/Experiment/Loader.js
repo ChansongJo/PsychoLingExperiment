@@ -1,19 +1,27 @@
 import React, {useState, useEffect} from "react";
 import {useParams, useHistory} from 'react-router-dom';
 import InitExperiment from "./Procedures";
-import {Clock} from "./utils";
 import {ExperimentContext} from "../../models/ExperimentContext"
 import * as Api from "../../api"
 import './Experiment.css';
 
-function TrialLoop({stimulusSet}) {
+function TrialLoop({stimulusSet, id, mode}) {
 
     const [trialDone, setTrialDone] = useState(true);
 
     const [context, setContext] = useState(null);
+    const [results, setResults] = useState([])
+    const [count, setCount] = useState(-1)
 
     // BE 통신 부로 변경 예정
     // FOR DEBUG
+    const uploadResults = async (results) => {
+        await Api.postExperimentResults(results, {id}).then(
+            res => alert('업로드가 완료되었습니다.')
+        ).catch(
+            e => console.log(e)
+        )
+    }
 
 
     useEffect(
@@ -21,15 +29,24 @@ function TrialLoop({stimulusSet}) {
             if (trialDone === true) {
                 console.log(stimulusSet)
                 const stimulus = stimulusSet.pop()
+
                 let _context
                 if (stimulus !== undefined) {
-                    _context = new ExperimentContext({stimulus, trialLength: 3, trialNumber: stimulusSet.length});
+                    _context = new ExperimentContext({stimulus_data: stimulus, stimulus: stimulus.id, session_id: id, order: count + 1});
                 } else {
                     _context = new ExperimentContext()
                     _context.isExperimentEnd = true
+
+                    if (mode === 'real') {
+                        uploadResults([...results, context.__obj])
+                    } else {
+                        console.log([...results, context.__obj])
+                    }
                 }
 
                 console.log('newcon', _context)
+                setCount(count + 1)
+                context !== null && setResults([...results, context.__obj])
                 setContext(_context)
                 setTrialDone(false);
             }
@@ -72,7 +89,15 @@ export default function Experiment({mode = 'real'}) {
     }
     const validateUser = async (id) => {
         await Api.getUser({id}).then(
-            setValid(true)
+            res => {
+                const finished = res.data.finished
+                if (!finished) {
+                    setValid(true)
+                } else {
+                    alert('이미 완료된 세션입니다. 등록과정부터 다시 진행해 주세요')
+                    history.push('/')
+                }
+            }
         ).catch(
             e => {
                 console.log(e.response)
@@ -84,7 +109,7 @@ export default function Experiment({mode = 'real'}) {
 
     useEffect(
         () => {
-            validateUser(id)
+            mode === 'real' && validateUser(id)
 
             if (mode === 'practice') {
                 setStimulusSet(PracticeStimulusSet)
@@ -103,7 +128,7 @@ export default function Experiment({mode = 'real'}) {
                     <span> session-id : {id}</span>
                 </div>
             </div >
-            {stimulusSet !== null && < TrialLoop stimulusSet={[...stimulusSet]} />}
+            {stimulusSet !== null && < TrialLoop stimulusSet={[...stimulusSet]} mode={mode} id={id} />}
 
         </>
     )

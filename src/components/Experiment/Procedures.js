@@ -43,15 +43,17 @@ const InitExperiment = (props) => {
 const Reading = (props) => {
     const context = props.context
 
-    const {sentence} = context.stimulus;
+    const {sentence} = context.stimulus_data;
     const maskedSentence = sentence.map(item => "__".repeat(item.length));
     const [renderedSentence, setRenderedSentence] = useState(maskedSentence);
     const [pointer, setPointer] = useState(0);
     const [done, setDone] = useState(false);
+    const [pressed, setPressed] = useState(false)
 
 
     const spacebarHandler = ({key, timeStamp}) => {
-        if (PROGRESS_KEY.includes(String(key)) && !done) {
+        if (!pressed && PROGRESS_KEY.includes(String(key)) && !done) {
+            setPressed(true)
             context.rawRT.push(timeStamp)
             if (pointer < sentence.length) {
                 let _temp = [...maskedSentence];
@@ -66,6 +68,7 @@ const Reading = (props) => {
     };
 
     useEventListener("keydown", spacebarHandler);
+    useEventListener("keyup", () => {setPressed(false)});
 
     useEffect(
         () => {

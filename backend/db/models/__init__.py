@@ -17,6 +17,7 @@ class Subject(models.Model):
         ('no', '없음'), ('less_1year', '1년 미만'), ('more_1year', '1년 이상')
     ))
     foreign_experience_country = models.CharField(max_length=128, blank=True)
+    finished = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.session_id} - {self.age} - {self.gender }'
@@ -56,4 +57,4 @@ class Trial(models.Model):
     exp_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"Trial: {self.id} / {self.subject} / {self.sentence}"
+        return f"Trial: {self.session_id} / {self.exp_date} - {self.order}"

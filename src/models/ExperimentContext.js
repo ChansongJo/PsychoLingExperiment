@@ -23,7 +23,7 @@ export class ExperimentContext extends Model {
 
     constructor(data) {
         super(data);
-        this.stimulus = new Stimulus(this.getFromPath('stimulus'));
+        this.stimulus_data = new Stimulus(this.getFromPath('stimulus_data'), {});
         this.rawRT = []
     }
 
@@ -65,9 +65,9 @@ export class ExperimentContext extends Model {
 
     validateReactionTime() {
         const rawRT = this.rawRT
-        if (rawRT.length !== this.stimulus.sentence.length + 1) {
+        if (rawRT.length !== this.stimulus_data.sentence.length + 1) {
             console.log(rawRT)
-            throw ('The length of RT array is inCorrect!!!', this.stimulus.sentence);
+            throw ('The length of RT array is inCorrect!!!', this.stimulus_data.sentence);
         } else {
             this.__obj['reaction_time_absolute'] = rawRT;
             const initial = rawRT[0];
@@ -76,7 +76,7 @@ export class ExperimentContext extends Model {
     }
 
     setJudgementTestResult(subjectAnswer) {
-        this.__obj['judgement_result'] = subjectAnswer === this.stimulus.isGrammatical;
+        this.__obj['judgement_result'] = subjectAnswer === this.stimulus_data.isGrammatical;
         this.__obj['judgement_reaction_time'] = this.judgementEndTimeStamp - this.rawRT[this.rawRT.length - 1];
     }
 

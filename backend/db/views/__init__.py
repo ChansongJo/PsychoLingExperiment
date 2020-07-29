@@ -2,6 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from backend.db.views.serializers import TrialSerailizer, SubjectSerailizer, StimulusSerailizer
+from backend.db.models import Subject
 import random
 import json
 
@@ -33,10 +34,12 @@ class TrialViewSet(GenericViewSet):
     @action(['PUT', ], detail=False)
     def bulk_upload(self, request):
         data = request.data
+        id = request.query_params.get('id')
+        Subject.objects.all().filter(session_id=id).update(finished=True)
         serializer = self.serializer_class(data=data, many=True)
         serializer.is_valid(raise_exception=True)
-        res = serializer.save()
-        return Response(res)
+        serializer.save()
+        return Response(status=204)
 
 
 class StimulusViewSet(GenericViewSet):

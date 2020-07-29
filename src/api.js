@@ -32,6 +32,6 @@ export const getUser = ({id}) => {
     return axios.get(`/data/subjects/${id}`, {headers: getHeader()})
 }
 
-export const postExperimentResults = (data, params) => {
+export const postExperimentResults = (data, params = {}) => {
     return axios.put(`/data/trials/bulk_upload/?${generateQueryParams(params)}`, data, {headers: getHeader()})
 }
