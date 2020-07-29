@@ -134,7 +134,7 @@ const JudgementTest = (props) => {
 
 const Final = (props) => {
     return (
-        <div>FINISHED (인사말 작업해야함)</div>
+        <div>연습이 종료되었습니다.</div>
     );
 };
 

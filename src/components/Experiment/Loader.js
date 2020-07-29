@@ -6,7 +6,7 @@ import * as Api from "../../api"
 import './Experiment.css';
 
 function TrialLoop({stimulusSet, id, mode}) {
-
+    const history = useHistory()
     const [trialDone, setTrialDone] = useState(true);
 
     const [context, setContext] = useState(null);
@@ -17,7 +17,7 @@ function TrialLoop({stimulusSet, id, mode}) {
     // FOR DEBUG
     const uploadResults = async (results) => {
         await Api.postExperimentResults(results, {id}).then(
-            res => alert('업로드가 완료되었습니다.')
+            res => alert('업로드가 완료되었습니다. ')
         ).catch(
             e => console.log(e)
         )
@@ -39,6 +39,8 @@ function TrialLoop({stimulusSet, id, mode}) {
 
                     if (mode === 'real') {
                         uploadResults([...results, context.__obj])
+                        // 실험 종료 감사 멘트 페이지
+                        history.push('/')
                     } else {
                         console.log([...results, context.__obj])
                     }
