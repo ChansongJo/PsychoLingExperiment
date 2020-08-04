@@ -243,8 +243,8 @@ const Enroll = () => {
                                 <h3>나</h3>
                             </Grid.Column>
                             <Grid.Column width={4}>
-                                <Controller as={<Form.Input placeholder={getValues('name')} transparent
-                                    error={() => nameDoubleCheck()} />}
+                                <Controller as={<Form.Input placeholder={"이  름"} transparent
+                                    error={errorHandler(errors.name_check)} />}
                                     rules={{required: true}}
                                     name='name_check'
                                     control={control} />
