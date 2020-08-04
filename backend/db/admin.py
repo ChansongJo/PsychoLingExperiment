@@ -41,18 +41,18 @@ class StimulusResource(resources.ModelResource):
         import_id_fields = []
 
 
-@ admin.register(Trial)
+@admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin):
     resource_class = TrialResource
     list_filter = ('session_id', 'exp_date')
 
 
-@ admin.register(Subject)
+@admin.register(Subject)
 class SubjectAdmin(ImportExportModelAdmin):
     resource_class = SubjectResource
 
 
-@ admin.register(Stimulus)
+@admin.register(Stimulus)
 class StimulusAdmin(ImportExportModelAdmin):
     resource_class = StimulusResource
     list_filter = ('is_grammatical', 'type')

@@ -40,7 +40,7 @@ function TrialLoop({stimulusSet, id, mode}) {
                     if (mode === 'real') {
                         uploadResults([...results, context.__obj])
                         // 실험 종료 감사 멘트 페이지
-                        history.push('/')
+                        history.push('/thanks')
                     } else {
                         console.log([...results, context.__obj])
                     }

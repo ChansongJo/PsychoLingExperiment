@@ -4,6 +4,7 @@ import Experiment from "./components/Experiment/Loader";
 import Instruction from "./components/Instruction";
 import Enroll from "./components/Enroll";
 import HomePage from "./components/MainPage";
+import ThanksPage from './components/Experiment/Thanks';
 
 const Page404 = () => {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/enroll' exact component={Enroll} />
         <Route path='/:id/run' exact component={Experiment} />
         <Route path='/:id' exact component={Instruction} />
+        <Route path='/thanks' exact component={ThanksPage} />
         <Route component={Page404} />
       </Switch>
     </Router>
