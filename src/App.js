@@ -5,6 +5,7 @@ import Instruction from "./components/Instruction";
 import Enroll from "./components/Enroll";
 import HomePage from "./components/MainPage";
 import ThanksPage from './components/Experiment/Thanks';
+import CorsiTest from './components/CorsiTest';
 
 const Page404 = () => {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/' exact component={HomePage} />
         <Route path='/enroll' exact component={Enroll} />
         <Route path='/thanks' exact component={ThanksPage} />
+        <Route path='/corsi' exact component={CorsiTest} />
         <Route path='/:id' exact component={Instruction} />
         <Route path='/:id/run' exact component={Experiment} />
         <Route component={Page404} />
