@@ -100,16 +100,18 @@ export default function CorsiTest() {
     };
 
     return (
-        <div
-            id="field"
-            style={{
-                width: 600,
-                height: 400,
-                display: "inline-block"
-            }}
-        >
-            {divs}
-            <button onClick={() => resetDivs()}>click</button>
+        <div className='experiment-body'>
+            <div
+                id="field"
+                style={{
+                    width: 600,
+                    height: 400,
+                    display: "inline-block"
+                }}
+            >
+                {divs}
+                <button onClick={() => resetDivs()}>click</button>
+            </div>
         </div>
     );
 }
