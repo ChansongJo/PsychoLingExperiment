@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import {useHistory} from 'react-router-dom'
+import useEventListener from "@use-it/event-listener";
+import * as Api from "../api"
+
+
 
 const BOX_NUM = 9
 const BOX_SIZE = 90
@@ -61,11 +64,11 @@ const isOverlap = (x, y, boxes) => {
     return false;
 };
 
-
-export default function CorsiTest() {
+export default function CorsiTest(props) {
     let freezeClic = false;
-    const history = useHistory()
     const [done, setDone] = useState(false)
+    const [ready, setReady] = useState(false)
+    const beep = new Audio('/static/beep.wav')
 
     document.addEventListener("click", freezeClicFn, true);
     function freezeClicFn(e) {
@@ -77,26 +80,23 @@ export default function CorsiTest() {
 
     // init
     useEffect(() => {
-        resetDivs()
-    }, [])
+        ready && resetDivs()
+    }, [ready])
 
-    //finish
-    useEffect(() => {
-        if (done) {
-            alert('실험 종료')
-            history.push('/')
-        }
-    }, [done])
+
 
     const [divs, setDivs] = useState([]);
     useEffect(() => {
-        freezeClic = true;
-        setTimeout(() => {
-            freezeClic = false;
-            if (document.getElementById('field') !== null) {
-                document.getElementById("field").style.cursor = "";
-            }
-        }, 100 + level * INTERVAL_TIME); // 초 계산해서 넣어야 함...
+        if (ready && !done) {
+            freezeClic = true;
+            setTimeout(() => {
+                freezeClic = false;
+                document.body.style.cursor = "";
+                beep.play()
+            }, 750 + level * INTERVAL_TIME)
+
+        }
+
     }, [divs]);
 
 
@@ -115,10 +115,14 @@ export default function CorsiTest() {
                 level++
                 life = 2
             } else {
-                life === 1 && setDone(true)
                 life = life - 1
             }
-            resetDivs()
+
+            if (life === 0) {
+                setDone(true)
+            } else {
+                resetDivs()
+            }
         } else {
             setDone(true)
         }
@@ -127,7 +131,7 @@ export default function CorsiTest() {
 
     const resetDivs = () => {
         const boxes = []; // 10개
-        document.getElementById("field").style.cursor = "none";
+        document.body.style.cursor = "none";
 
         let count = 0;
 
@@ -151,22 +155,90 @@ export default function CorsiTest() {
     };
 
     return (
-        <div className='experiment-body'>
-            <div>
-                <button onClick={() => handleFinish()} >완료!!</button>
-                <div>DEBUG level = {level} / life = {life}</div>
-
-            </div>
-            <div
-                id="field"
-                style={{
-                    width: 800,
-                    height: 600,
-                    position: "relative"
-                }}
-            >
-                {divs}
-            </div>
-        </div>
+        !ready
+            ? <CorsiInstruction setReady={setReady} /> // 1
+            : !done // 2
+                ? <>
+                    <div
+                        id="field"
+                        style={{
+                            width: 800,
+                            height: 600,
+                            position: "relative"
+                        }}
+                    >
+                        {divs}
+                    </div>
+                    <div>
+                        <button onClick={() => handleFinish()} >완료!!</button>
+                    </div>
+                </>
+                : <Final {...props} corsiSpan={(level + life > 10) ? level : level - 1} />
     );
 }
+
+const CorsiInstruction = (props) => {
+    useEventListener("keydown", ({key}) => String(key) === ' ' && setReady(true));
+
+    const [ready, setReady] = useState(false)
+    useEffect(
+        () => {
+
+            ready && setTimeout(() => {
+                props.setReady(true)
+            }, 3000)
+        }
+    )
+    return (
+        <div className='instruction'>
+            {!ready
+                ? <>
+                    <div className="comment">이 과제에서 당신은 마우스를 이용해야 합니다.</div>
+                    <div className="comment">화면에 9개의 오렌지 색 상자가 등장합니다.</div>
+                    <div className="comment">상자 중 일부가 순서대로 노란색으로 반짝입니다.</div>
+                    <div className="comment">신호음이 들리고 나면 앞서 반짝였던 순서에 맞추어 상자를 클릭하고 </div>
+                    <div className="comment"> 완료 버튼을 눌러주십시오.</div>
+                    <div></div>
+
+                    <div className="comment bold">준비가 완료되면 스페이스 바를 눌러 진행하세요.</div>
+                </>
+                : <div className="comment bold">준 비</div>
+            }
+        </div >)
+}
+
+
+const Final = ({mode, context, corsiSpan}) => {
+    const uploadResults = async (id, {corsiSpan, results}) => {
+        await Api.patchUserData(id, {corsi_span: corsiSpan})
+        await Api.postExperimentResults(results, {id}).then(
+            res => alert('업로드가 완료되었습니다. ')
+        ).catch(
+            e => console.log(e)
+        )
+    }
+
+
+    useEffect(
+        () => {
+            if (mode === 'real') {
+                console.log(context)
+                uploadResults(context.sessionId, {corsiSpan, results: context.results})
+            }
+            life = 2
+            level = 2
+            response = []
+        }, []
+    )
+    return (
+        (mode === 'real')
+            ? <div className="instruction">
+                <div className="comment bold">실험이 종료되었습니다. </div>
+                <div className="comment bold">긴 시간 대단히 고생하셨습니다. </div>
+                <div className="comment bold">감사합니다. </div>
+            </div>
+            : <div className='instruction'>
+                <div className='comment bold'>연습이 종료되었습니다.</div>
+            </div>
+    );
+};
