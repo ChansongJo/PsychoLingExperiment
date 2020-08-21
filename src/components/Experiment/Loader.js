@@ -6,22 +6,13 @@ import * as Api from "../../api"
 import './Experiment.css';
 
 function TrialLoop({stimulusSet, id, mode}) {
-    const history = useHistory()
     const [trialDone, setTrialDone] = useState(true);
 
     const [context, setContext] = useState(null);
     const [results, setResults] = useState([])
     const [count, setCount] = useState(-1)
 
-    // BE 통신 부로 변경 예정
-    // FOR DEBUG
-    const uploadResults = async (results) => {
-        await Api.postExperimentResults(results, {id}).then(
-            res => alert('업로드가 완료되었습니다. ')
-        ).catch(
-            e => console.log(e)
-        )
-    }
+
 
 
     useEffect(
@@ -34,21 +25,16 @@ function TrialLoop({stimulusSet, id, mode}) {
                 if (stimulus !== undefined) {
                     _context = new ExperimentContext({stimulus_data: stimulus, stimulus: stimulus.id, session_id: id, order: count + 1});
                 } else {
-                    _context = new ExperimentContext()
+                    _context = new ExperimentContext({session_id: id})
                     _context.isExperimentEnd = true
-
-                    if (mode === 'real') {
-                        uploadResults([...results, context.__obj])
-                        // 실험 종료 감사 멘트 페이지
-                        history.push('/thanks')
-                    } else {
-                        console.log([...results, context.__obj])
-                    }
                 }
 
                 console.log('newcon', _context)
                 setCount(count + 1)
                 context !== null && setResults([...results, context.__obj])
+                if (_context.isExperimentEnd) {
+                    _context.results = [...results, context.__obj]
+                }
                 setContext(_context)
                 setTrialDone(false);
             }
@@ -57,7 +43,7 @@ function TrialLoop({stimulusSet, id, mode}) {
 
     return (
         <div className='experiment-body'>
-            {context !== null && <InitExperiment context={context} setTrialDone={setTrialDone} />}
+            {context !== null && <InitExperiment context={context} setTrialDone={setTrialDone} mode={mode} />}
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import useEventListener from "@use-it/event-listener";
 import "./Experiment.css";
+import CorsiTest from "../CorsiTest";
 
 // https://github.com/donavon/use-event-listener
 
@@ -34,7 +35,7 @@ const InitExperiment = (props) => {
                 !done ? <crosshair>+</crosshair>
                     : <Reading {...props} />
                 :
-                <Final {...props} />}
+                <CorsiTest {...props} />}
         </>
     );
 };
@@ -131,12 +132,6 @@ const JudgementTest = (props) => {
     );
 };
 
-
-const Final = (props) => {
-    return (
-        <div>연습이 종료되었습니다.</div>
-    );
-};
 
 export default InitExperiment;
 

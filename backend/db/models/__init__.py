@@ -18,16 +18,17 @@ class Subject(models.Model):
     ))
     foreign_experience_country = models.CharField(max_length=128, blank=True)
     finished = models.BooleanField(default=False)
+    corsi_span = models.IntegerField(blank=True, default=-1)
 
     def __str__(self):
         return f'{self.session_id} - {self.age} - {self.gender }'
 
     def to_representation(self):
-        return [str(self.session_id), self.age, self.gender, self.academic_background, self.foreign_experience]
+        return [str(self.session_id), self.age, self.gender, self.academic_background, self.foreign_experience, self.corsi_span]
 
     def get_representation_columns(self):
         return ['id', 'age', 'gender',
-                'academic_background', 'foriegn_experience']
+                'academic_background', 'foriegn_experience', 'corsi_span']
 
 
 class Stimulus(models.Model):
