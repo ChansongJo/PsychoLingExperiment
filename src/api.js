@@ -24,6 +24,10 @@ export const postUserData = (data, params = {}) => {
     return axios.post(`/data/subjects/${generateQueryParams(params)}`, data, {headers: getHeader()})
 }
 
+export const patchUserData = (id, data, params = {}) => {
+    return axios.patch(`/data/subjects/${id}/${generateQueryParams(params)}`, data, {headers: getHeader()})
+}
+
 export const getStimuli = (params) => {
     return axios.get(`/data/stimulus/generate_stimulus_set/?${generateQueryParams(params)}`, {headers: getHeader()})
 }
