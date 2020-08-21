@@ -1,18 +1,32 @@
 import React, {useState, useEffect} from 'react'
+import {useHistory} from 'react-router-dom'
 
-function Box({left, top, timeOffset = 0}) {
+const BOX_NUM = 9
+const BOX_SIZE = 90
+const BLINK_TIME = 350 // ms
+const INTERVAL_TIME = 600
+let response = []
+let level = 2
+let life = 2
+
+
+function Box({left, top, timeOffset = 0, order}) {
     const [color, setColor] = useState("orange");
+    const [done, setDone] = useState(false)
     useEffect(() => {
-        console.log(timeOffset);
-        setTimeout(() => {
-            setColor("yellow");
+        if (timeOffset !== 0) {
             setTimeout(() => {
-                setColor("orange");
-            }, 300);
-        }, timeOffset);
+                setColor("yellow");
+                setTimeout(() => {
+                    setColor("orange");
+                }, BLINK_TIME);
+            }, timeOffset);
+        }
     }, []);
 
     const handleClick = () => {
+        !done && response.push(order)
+        setDone(true)
         setColor("yellow");
     };
 
@@ -20,8 +34,8 @@ function Box({left, top, timeOffset = 0}) {
         <div
             onClick={() => handleClick()}
             style={{
-                width: 70,
-                height: 70,
+                width: BOX_SIZE,
+                height: BOX_SIZE,
                 border: "0.1em solid",
                 position: "absolute",
                 left: left,
@@ -32,9 +46,27 @@ function Box({left, top, timeOffset = 0}) {
     );
 }
 
+const isOverlap = (x, y, boxes) => {
+    // return true if overlapping
+
+    for (const box of boxes) {
+        if (
+            x > box.props.left - BOX_SIZE &&
+            x < box.props.left + BOX_SIZE &&
+            y > box.props.top - BOX_SIZE &&
+            y < box.props.top + BOX_SIZE
+        )
+            return true;
+    }
+    return false;
+};
+
 
 export default function CorsiTest() {
     let freezeClic = false;
+    const history = useHistory()
+    const [done, setDone] = useState(false)
+
     document.addEventListener("click", freezeClicFn, true);
     function freezeClicFn(e) {
         if (freezeClic) {
@@ -43,55 +75,74 @@ export default function CorsiTest() {
         }
     }
 
+    // init
+    useEffect(() => {
+        resetDivs()
+    }, [])
+
+    //finish
+    useEffect(() => {
+        if (done) {
+            alert('실험 종료')
+            history.push('/')
+        }
+    }, [done])
 
     const [divs, setDivs] = useState([]);
     useEffect(() => {
         freezeClic = true;
         setTimeout(() => {
             freezeClic = false;
-            document.getElementById("field").style.cursor = "";
-        }, 3000); // 초 계산해서 넣어야 함...
+            if (document.getElementById('field') !== null) {
+                document.getElementById("field").style.cursor = "";
+            }
+        }, 100 + level * INTERVAL_TIME); // 초 계산해서 넣어야 함...
     }, [divs]);
 
+
     const getRandCoord = () => {
-        return Math.floor((Math.random() - 0.5) * 300);
+        return Math.floor((Math.random()) * 400);
     };
 
+    const compareArray = (arr1, arr2) => {
+        return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index])
+    }
+
+    const handleFinish = () => {
+        const coords = divs.slice(0, level).map(item => item.props.order)
+        if (life > 0 && level < 10) {
+            if (compareArray(coords, response)) {
+                level++
+                life = 2
+            } else {
+                life === 1 && setDone(true)
+                life = life - 1
+            }
+            resetDivs()
+        } else {
+            setDone(true)
+        }
+        response = []
+    }
+
     const resetDivs = () => {
-        const center_y = 200;
-        const center_x = window.innerWidth / 2;
         const boxes = []; // 10개
         document.getElementById("field").style.cursor = "none";
 
         let count = 0;
 
-        const isOverlap = (x, y) => {
-            // return true if overlapping
-            const size = {x: 75, y: 75};
-
-            for (const box of boxes) {
-                if (
-                    x > box.props.left - size.x &&
-                    x < box.props.left + size.x &&
-                    y > box.props.top - size.y &&
-                    y < box.props.top + size.y
-                )
-                    return true;
-            }
-            return false;
-        };
-
-        while (boxes.length < 9) {
-            const x = center_x + getRandCoord() * 1.5;
-            const y = center_y + getRandCoord();
-            if (!isOverlap(x, y)) {
+        while (boxes.length < BOX_NUM) {
+            const x = getRandCoord() * 1.5;
+            const y = getRandCoord();
+            if (!isOverlap(x, y, boxes)) {
                 count++;
                 boxes.push(
                     <Box
                         left={x}
                         top={y}
-                        timeOffset={count * 0.5 * 1000}
-                        key={Math.random()}
+                        timeOffset={(count <= level) ? count * INTERVAL_TIME : 0}
+                        key={`${x},${y}`}
+                        order={count}
                     />
                 );
             }
@@ -101,16 +152,20 @@ export default function CorsiTest() {
 
     return (
         <div className='experiment-body'>
+            <div>
+                <button onClick={() => handleFinish()} >완료!!</button>
+                <div>DEBUG level = {level} / life = {life}</div>
+
+            </div>
             <div
                 id="field"
                 style={{
-                    width: 600,
-                    height: 400,
-                    display: "inline-block"
+                    width: 800,
+                    height: 600,
+                    position: "relative"
                 }}
             >
                 {divs}
-                <button onClick={() => resetDivs()}>click</button>
             </div>
         </div>
     );
