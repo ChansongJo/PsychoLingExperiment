@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react'
 import useEventListener from "@use-it/event-listener";
 import * as Api from "../api"
 
-
-
 const BOX_NUM = 9
 const BOX_SIZE = 90
 const BLINK_TIME = 350 // ms
@@ -69,6 +67,7 @@ export default function CorsiTest(props) {
     const [done, setDone] = useState(false)
     const [ready, setReady] = useState(false)
     const beep = new Audio('/static/beep.wav')
+    const levelLimit = (props.mode === 'real') ? 10 : 4
 
     document.addEventListener("click", freezeClicFn, true);
     function freezeClicFn(e) {
@@ -110,7 +109,7 @@ export default function CorsiTest(props) {
 
     const handleFinish = () => {
         const coords = divs.slice(0, level).map(item => item.props.order)
-        if (life > 0 && level < 10) {
+        if (life > 0 && level < levelLimit) {
             if (compareArray(coords, response)) {
                 level++
                 life = 2
@@ -130,7 +129,7 @@ export default function CorsiTest(props) {
     }
 
     const resetDivs = () => {
-        const boxes = []; // 10개
+        const boxes = [];
         document.body.style.cursor = "none";
 
         let count = 0;
