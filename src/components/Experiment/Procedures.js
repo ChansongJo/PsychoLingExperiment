@@ -9,14 +9,14 @@ const PROGRESS_KEY = [" "];
 const CHOICE_KEY = ["ArrowRight", "ArrowLeft"];
 
 
-const InitExperiment = (props) => {
-    const [done, setDone] = useState(false);
+const ExperimentHandler = (props) => {
+    const [ready, setReady] = useState(false);
     const isExperimentEnd = props.context.isExperimentEnd
 
     useEffect(
         () => {
             if (!isExperimentEnd) {
-                const timer1 = setTimeout(() => setDone(true), 1500);
+                const timer1 = setTimeout(() => setReady(true), 1500);
                 return () => clearTimeout(timer1);
             }
         }
@@ -25,14 +25,14 @@ const InitExperiment = (props) => {
 
     useEffect(
         () => {
-            setDone(false);
+            setReady(false);
         }, [props]
     );
     return (
         <>
             {!isExperimentEnd
                 ?
-                !done ? <crosshair>+</crosshair>
+                !ready ? <crosshair>+</crosshair>
                     : <Reading {...props} />
                 :
                 <CorsiTest {...props} />}
@@ -110,7 +110,8 @@ const JudgementTest = (props) => {
         <>
             <div className="instruction">
                 <div className="comment bold">제시되었던 문장의 자연스러움을 평가해 주세요.</div>
-                <div className="comment">키보드로 보기 O / X 를 선택하고 Space Bar를 눌러 다음으로 진행하세요.</div>
+                <div className="comment">문장이 자연스러웠다면 O, 자연스럽지 않았다면 X를 <br /> 키보드의 방향키를 이용해 선택해 주세요.</div>
+                <div className="comment">선택을 완료한 후에는 Space Bar를 눌러 다음으로 진행하세요.</div>
             </div>
             <div className="choiceSet">
                 <div className="choiceBox" style={{backgroundColor: keyResponse === 'ArrowLeft' ? 'chartreuse' : null}}>
@@ -133,7 +134,8 @@ const JudgementTest = (props) => {
 };
 
 
-export default InitExperiment;
+export default ExperimentHandler;
+
 
 
 

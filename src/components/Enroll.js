@@ -248,12 +248,16 @@ const Enroll = () => {
                     </Form.Group>
                     <Grid >
                         <Grid.Row columns={4} style={{marginBottop: '3em', padding: '2em'}}>
-                            <Grid.Column width={2}>
+                            <Grid.Column width={1}>
                                 <h3>나</h3>
                             </Grid.Column>
-                            <Grid.Column width={4}>
-                                <Controller as={<Form.Input placeholder={"이  름"} transparent
-                                    error={errorHandler(errors.name_check)} />}
+                            <Grid.Column width={3}>
+                                <Controller as={
+                                    <Form.Input placeholder={""} transparent style={{
+                                        borderBottom: '0.1em solid',
+                                        fontSize: '1.4em',
+                                    }}
+                                        error={errorHandler(errors.name_check)} />}
                                     rules={{required: true}}
                                     name='name_check'
                                     control={control} />
