@@ -55,7 +55,7 @@ const Body = ({mobile = false}) => (
                         </div>
                         <div class="studyDetail centered">
                             실험 기간 | 2020.07.15 ~ 2020.08.15 <br />
-                    문의 사항 | 염희선 / duagmltjs@sogang.ac.kr (수정예정)
+                    문의 사항 | 염희선 / heesunyeom@gmail.com
                     </div>
                     </div>
 
