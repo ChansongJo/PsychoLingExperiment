@@ -31,6 +31,10 @@ export class ExperimentContext extends Model {
         return this.getFromPath('session_id');
     }
 
+    get group() {
+        return this.getFromPath('group');
+    }
+
     get reactionTime() {
         return this.getFromPath('reaction_time');
     }

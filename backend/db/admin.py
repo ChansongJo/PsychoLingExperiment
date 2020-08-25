@@ -37,7 +37,7 @@ class SubjectResource(resources.ModelResource):
 class StimulusResource(resources.ModelResource):
     class Meta:
         model = Stimulus
-        fields = ('sentence', 'is_grammatical', 'type')
+        fields = ('sentence', 'is_grammatical', 'type', 'group')
         import_id_fields = []
 
 
@@ -55,4 +55,4 @@ class SubjectAdmin(ImportExportModelAdmin):
 @admin.register(Stimulus)
 class StimulusAdmin(ImportExportModelAdmin):
     resource_class = StimulusResource
-    list_filter = ('is_grammatical', 'type')
+    list_filter = ('is_grammatical', 'type', 'group')

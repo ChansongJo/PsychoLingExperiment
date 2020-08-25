@@ -1,3 +1,5 @@
+from collections import Counter, defaultdict
+
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -35,7 +37,10 @@ class TrialViewSet(GenericViewSet):
     def bulk_upload(self, request):
         data = request.data
         id = request.query_params.get('id')
-        Subject.objects.all().filter(session_id=id).update(finished=True)
+        group = request.query_params.get('group')
+        corsi_span = request.query_params.get('corsiSpan')
+        Subject.objects.all().filter(session_id=id).update(
+            finished=True, group=group, corsi_span=corsi_span)
         serializer = self.serializer_class(data=data, many=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -53,10 +58,21 @@ class StimulusViewSet(GenericViewSet):
 
     @action(['GET', ], detail=False)
     def generate_stimulus_set(self, request):
-        stimuli = list(self.get_queryset().order_by('id').values())
+        # get group
+        # subjects 조회 후 가장 안 나온거 맞추기...
+        temp = Subject.objects.all().filter(group__in="A B C D".split(' ')).values()
+        temp = [w['group'] for w in temp]
+        counter = Counter(temp)
+        if len(counter) < 4:
+            temp = {key: counter[key] for key in "ABCD"}
+            counter = Counter(temp)
+        group = counter.most_common()[-1][0]
+
+        stimuli = list(self.get_queryset().filter(
+            group__in=[group, 'F']).order_by('id').values())
         seed = hash(request.query_params.get('id', '1234')[-4:])
         random.Random(seed).shuffle(stimuli)
-        return Response({'seed': seed, 'stimuli': stimuli})
+        return Response({'seed': seed, 'stimuli': stimuli, 'group': group, 'length': len(stimuli)})
 
 
 class SubjectViewSet(GenericViewSet):

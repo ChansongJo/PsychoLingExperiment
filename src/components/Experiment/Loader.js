@@ -19,13 +19,14 @@ function TrialLoop({stimulusSet, id, mode}) {
         () => {
             if (trialDone === true) {
                 console.log(stimulusSet)
-                const stimulus = stimulusSet.pop()
+                const stimulus = stimulusSet.stimuli.pop()
+                const group = stimulusSet.group
 
                 let _context
                 if (stimulus !== undefined) {
-                    _context = new ExperimentContext({stimulus_data: stimulus, stimulus: stimulus.id, session_id: id, order: count + 1});
+                    _context = new ExperimentContext({group, stimulus_data: stimulus, stimulus: stimulus.id, session_id: id, order: count + 1});
                 } else {
-                    _context = new ExperimentContext({session_id: id})
+                    _context = new ExperimentContext({group, session_id: id})
                     _context.isExperimentEnd = true
                 }
 
@@ -58,20 +59,24 @@ export default function Experiment({mode = 'real'}) {
         "영희는 그런 철수가 한심하게 느껴졌다",
         "오늘 서울의 날씨는 비가 올 예정임"
     ];
-    const PracticeStimulusSet = sentenceList.map((item, idx) => {
-        return {
-            sentence: item,
-            is_grammatical: true,
-            type: true,
-            id: idx,
-        };
-    }).reverse();
+    const PracticeStimulusSet =
+    {
+        stimulus: sentenceList.map((item, idx) => {
+            return {
+                sentence: item,
+                is_grammatical: true,
+                type: true,
+                id: idx,
+            };
+        }).reverse(),
+        group: 'P'
+    }
 
     const fetchStimuli = async () => {
         await Api.getStimuli({id}).then(
             res => {
                 console.log(res.data)
-                setStimulusSet(res.data.stimuli)
+                setStimulusSet(res.data)
             }
         ).catch(e => console.log(e))
     }
@@ -116,7 +121,7 @@ export default function Experiment({mode = 'real'}) {
                     <span> session-id : {id}</span>
                 </div>
             </div >
-            {stimulusSet !== null && < TrialLoop stimulusSet={[...stimulusSet]} mode={mode} id={id} />}
+            {stimulusSet !== null && < TrialLoop stimulusSet={{...stimulusSet}} mode={mode} id={id} />}
 
         </>
     )

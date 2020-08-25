@@ -208,9 +208,8 @@ const CorsiInstruction = (props) => {
 
 
 const Final = ({mode, context, corsiSpan}) => {
-    const uploadResults = async (id, {corsiSpan, results}) => {
-        await Api.patchUserData(id, {corsi_span: corsiSpan})
-        await Api.postExperimentResults(results, {id}).then(
+    const uploadResults = async (id, {corsiSpan, results, group}) => {
+        await Api.postExperimentResults(results, {id, group, corsiSpan}).then(
             res => alert('업로드가 완료되었습니다. ')
         ).catch(
             e => console.log(e)
@@ -222,7 +221,7 @@ const Final = ({mode, context, corsiSpan}) => {
         () => {
             if (mode === 'real') {
                 console.log(context)
-                uploadResults(context.sessionId, {corsiSpan, results: context.results})
+                uploadResults(context.sessionId, {corsiSpan, results: context.results, group: context.group})
             }
             life = 2
             level = 2

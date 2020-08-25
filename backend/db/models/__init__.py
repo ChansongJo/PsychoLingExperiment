@@ -19,6 +19,13 @@ class Subject(models.Model):
     foreign_experience_age = models.IntegerField()
     foreign_experience_country = models.CharField(max_length=128, blank=True)
     finished = models.BooleanField(default=False)
+    group = models.CharField(max_length=10, default='F', choices=(
+        ('A', 'A'),
+        ('B', 'B'),
+        ('C', 'C'),
+        ('D', 'D'),
+        ('F', 'F'),
+    ))
     corsi_span = models.IntegerField(blank=True, default=-1)
 
     def __str__(self):
@@ -37,6 +44,13 @@ class Stimulus(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     sentence = models.CharField(max_length=128)
     is_grammatical = models.BooleanField()
+    group = models.CharField(max_length=10, choices=(
+        ('A', 'A'),
+        ('B', 'B'),
+        ('C', 'C'),
+        ('D', 'D'),
+        ('F', 'F'),
+    ))
     type = models.CharField(max_length=10, choices=(
         ('filler', 'Filler'),
         ('direct', 'Direct'),
