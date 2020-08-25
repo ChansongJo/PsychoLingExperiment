@@ -23,10 +23,12 @@ const gender_options = [
 ]
 
 const academic_options = [
-    {key: 'q', text: '고등학교', value: 'highschool'},
-    {key: 'e', text: '대학교', value: 'bachelor'},
-    {key: 'r', text: '석사', value: 'master'},
-    {key: 'r', text: '박사', value: 'doctor'},
+    {key: 'e', text: '초등학교', value: 'elementary'},
+    {key: 'm', text: '중학교', value: 'middle'},
+    {key: 'h', text: '고등학교', value: 'high'},
+    {key: 'b', text: '대학교', value: 'bachelor'},
+    {key: 'a', text: '석사', value: 'master'},
+    {key: 'd', text: '박사', value: 'doctor'},
 ]
 
 
@@ -36,10 +38,12 @@ const academic_status = [
     {key: 'f', text: '기타', value: 'other'},
 ]
 
-const foreign_options = [
+
+const foreign_options_duration = [
     {key: 'q', text: '없음', value: 'no'},
-    {key: 'e', text: '1년 미만', value: 'less_1year'},
-    {key: 'f', text: '1년 이상', value: 'more_1year'},
+    {key: 'e', text: '2년 미만', value: '2-'},
+    {key: 'f', text: '2년 이상 3년 미만', value: '2+'},
+    {key: 'k', text: '3년 이상', value: '3+'},
 ]
 
 const Enroll = () => {
@@ -49,6 +53,7 @@ const Enroll = () => {
 
     const onSubmit = async (data) => {
         const payload = new SubjectModel(data).payload
+        console.log('data', data)
         await postUserData(payload).then(
             res => {
                 console.log(res)
@@ -195,9 +200,9 @@ const Enroll = () => {
 
 
                         <Controller
-                            as={<Form.Input placeholder='전공' width={1} disabled={getValues('academic_degree') === 'highschool'} error={errorHandler(errors.academic_major)} />}
+                            as={<Form.Input placeholder='전공' width={1} disabled={['high', 'elementary', 'middle'].includes(getValues('academic_degree'))} error={errorHandler(errors.academic_major)} />}
                             control={control}
-                            rules={{required: getValues('academic_degree') !== 'highschool'}}
+                            rules={{required: !['high', 'elementary', 'middle'].includes(getValues('academic_degree'))}}
                             name='academic_major' />
 
                     </Form.Group>
@@ -206,26 +211,34 @@ const Enroll = () => {
                         <Controller
                             control={control}
                             rules={{required: true}}
-                            name='foreign_experience'
+                            name='foreign_experience_duration'
                             render={({onChange, onBlur, value}) => (
                                 <Form.Select
                                     placeholder='해외 체류 경험'
                                     onChange={(e, data) => {
-                                        handleChange(data, 'foreign_experience')
+                                        handleChange(data, 'foreign_experience_duration')
                                     }}
                                     onBlur={onBlur}
                                     selected={value}
-                                    options={foreign_options}
+                                    options={foreign_options_duration}
                                     error={errorHandler(errors.foreign_experience)}
                                 />
                             )} />
                         <Controller
-                            as={<Form.Input placeholder='국가' disabled={getValues('foreign_experience') !== 'more_1year'} error={errorHandler(errors.foreign_experience_nation)} />}
+                            as={<Form.Input placeholder='출국 연령 (만)' disabled={!["2+", "3+"].includes(getValues('foreign_experience_duration'))} error={errorHandler(errors.foreign_experience_age)} />}
                             control={control}
                             rules={{
-                                required: (getValues('foreign_experience') === 'more_1year')
+                                required: ["2+", "3+"].includes(getValues('foreign_experience_duration')),
+                                pattern: /[0-9]+/
                             }}
-                            name='foreign_experience_nation' />
+                            name='foreign_experience_age' />
+                        <Controller
+                            as={<Form.Input placeholder='국가' disabled={!["2+", "3+"].includes(getValues('foreign_experience_duration'))} error={errorHandler(errors.foreign_experience_country)} />}
+                            control={control}
+                            rules={{
+                                required: ["2+", "3+"].includes(getValues('foreign_experience_duration'))
+                            }}
+                            name='foreign_experience_country' />
                     </Form.Group>
                     <Divider style={{margin: '2em'}} />
                     <Header as={'h3'}>실험 동의</Header>

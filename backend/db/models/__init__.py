@@ -13,9 +13,10 @@ class Subject(models.Model):
     email = models.EmailField()
     session_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
-    foreign_experience = models.CharField(max_length=128, choices=(
-        ('no', '없음'), ('less_1year', '1년 미만'), ('more_1year', '1년 이상')
+    foreign_experience_duration = models.CharField(max_length=128, choices=(
+        ('no', '없음'), ('2-', '2년 미만'), ('2+', '2년 이상'), ('3+', '3년 이상')
     ))
+    foreign_experience_age = models.IntegerField()
     foreign_experience_country = models.CharField(max_length=128, blank=True)
     finished = models.BooleanField(default=False)
     corsi_span = models.IntegerField(blank=True, default=-1)
@@ -24,11 +25,11 @@ class Subject(models.Model):
         return f'{self.session_id} - {self.age} - {self.gender }'
 
     def to_representation(self):
-        return [str(self.session_id), self.age, self.gender, self.academic_background, self.foreign_experience, self.corsi_span]
+        return [str(self.session_id), self.age, self.gender, self.academic_background, self.foreign_experience_duration, self.foreign_experience_age, self.corsi_span]
 
     def get_representation_columns(self):
         return ['id', 'age', 'gender',
-                'academic_background', 'foriegn_experience', 'corsi_span']
+                'academic_background', 'foriegn_experience_duration', 'foriegn_experience_age', 'corsi_span']
 
 
 class Stimulus(models.Model):
