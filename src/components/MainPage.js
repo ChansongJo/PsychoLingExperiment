@@ -54,7 +54,7 @@ const Body = ({mobile = false}) => (
                             <Image src="/static/logo_white.png" />
                         </div>
                         <div class="studyDetail centered">
-                            실험 기간 | 2020.07.15 ~ 2020.08.15 <br />
+                            실험 기간 | 2020.08.27 ~ 2020.09.30 <br />
                     문의 사항 | 염희선 / heesunyeom@gmail.com
                     </div>
                     </div>
