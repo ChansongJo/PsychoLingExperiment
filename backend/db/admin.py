@@ -37,7 +37,7 @@ class SubjectResource(resources.ModelResource):
 class StimulusResource(resources.ModelResource):
     class Meta:
         model = Stimulus
-        fields = ('sentence', 'is_grammatical', 'type', 'group')
+        fields = ('sentence', 'is_grammatical', 'type', 'group', 'event')
         import_id_fields = []
 
 

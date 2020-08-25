@@ -44,6 +44,7 @@ class Stimulus(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     sentence = models.CharField(max_length=128)
     is_grammatical = models.BooleanField()
+    event = models.IntegerField(default=-1)
     group = models.CharField(max_length=10, choices=(
         ('A', 'A'),
         ('B', 'B'),
