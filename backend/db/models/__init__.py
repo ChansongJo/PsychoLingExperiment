@@ -62,10 +62,10 @@ class Stimulus(models.Model):
         return self.sentence
 
     def to_representation(self):
-        return [str(self.id), self.sentence, self.is_grammatical, self.type]
+        return [str(self.id), self.sentence, self.is_grammatical, self.type, self.event]
 
     def get_representation_columns(self):
-        return ['id', 'sentence', 'is_grammatical', 'type']
+        return ['id', 'sentence', 'is_grammatical', 'type', 'event']
 
 
 class Trial(models.Model):
