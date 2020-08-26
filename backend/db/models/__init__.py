@@ -16,7 +16,7 @@ class Subject(models.Model):
     foreign_experience_duration = models.CharField(max_length=128, choices=(
         ('no', '없음'), ('2-', '2년 미만'), ('2+', '2년 이상'), ('3+', '3년 이상')
     ))
-    foreign_experience_age = models.IntegerField()
+    foreign_experience_age = models.IntegerField(default=-1)
     foreign_experience_country = models.CharField(max_length=128, blank=True)
     finished = models.BooleanField(default=False)
     group = models.CharField(max_length=10, default='F', choices=(
