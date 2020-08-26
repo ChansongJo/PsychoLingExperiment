@@ -237,6 +237,7 @@ const Final = ({mode, context, corsiSpan}) => {
             </div>
             : <div className='instruction'>
                 <div className='comment bold'>연습이 종료되었습니다.</div>
+                <div className='comment bold'>ESC key를 눌러 이전 페이지로 돌아갈 수 있습니다.</div>
             </div>
     );
 };
