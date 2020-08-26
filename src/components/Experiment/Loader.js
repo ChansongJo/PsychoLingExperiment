@@ -19,7 +19,7 @@ function TrialLoop({stimulusSet, id, mode}) {
         () => {
             if (trialDone === true) {
                 console.log(stimulusSet)
-                const stimulus = stimulusSet.stimulus.pop()
+                const stimulus = stimulusSet.stimuli.pop()
                 const group = stimulusSet.group
 
                 let _context
@@ -61,7 +61,7 @@ export default function Experiment({mode = 'real'}) {
     ];
     const PracticeStimulusSet =
     {
-        stimulus: sentenceList.map((item, idx) => {
+        stimuli: sentenceList.map((item, idx) => {
             return {
                 sentence: item,
                 is_grammatical: true,

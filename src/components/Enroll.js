@@ -229,7 +229,7 @@ const Enroll = () => {
                             control={control}
                             rules={{
                                 required: ["2+", "3+"].includes(getValues('foreign_experience_duration')),
-                                pattern: /[0-9]+/
+                                pattern: (["2+", "3+"].includes(getValues('foreign_experience_duration'))) ? /[0-9]+/ : /.?/
                             }}
                             name='foreign_experience_age' />
                         <Controller
