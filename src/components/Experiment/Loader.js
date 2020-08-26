@@ -19,7 +19,7 @@ function TrialLoop({stimulusSet, id, mode}) {
         () => {
             if (trialDone === true) {
                 console.log(stimulusSet)
-                const stimulus = stimulusSet.stimuli.pop()
+                const stimulus = stimulusSet.stimulus.pop()
                 const group = stimulusSet.group
 
                 let _context
