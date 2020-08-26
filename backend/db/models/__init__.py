@@ -18,6 +18,7 @@ class Subject(models.Model):
     ))
     foreign_experience_age = models.IntegerField(default=-1)
     foreign_experience_country = models.CharField(max_length=128, blank=True)
+    mother_tongue = models.CharField(max_length=128, blank=True)
     finished = models.BooleanField(default=False)
     group = models.CharField(max_length=10, default='F', choices=(
         ('A', 'A'),

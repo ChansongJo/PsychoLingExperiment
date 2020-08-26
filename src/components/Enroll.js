@@ -225,7 +225,9 @@ const Enroll = () => {
                                 />
                             )} />
                         <Controller
-                            as={<Form.Input placeholder='출국 연령 (만)' disabled={!["2+", "3+"].includes(getValues('foreign_experience_duration'))} error={errorHandler(errors.foreign_experience_age)} />}
+                            as={<Form.Input placeholder='출국 연령 (만)' 
+                                            disabled={!["2+", "3+"].includes(getValues('foreign_experience_duration'))} 
+                                            error={errorHandler(errors.foreign_experience_age)} />}
                             control={control}
                             rules={{
                                 required: ["2+", "3+"].includes(getValues('foreign_experience_duration')),
@@ -239,6 +241,16 @@ const Enroll = () => {
                                 required: ["2+", "3+"].includes(getValues('foreign_experience_duration'))
                             }}
                             name='foreign_experience_country' />
+                    </Form.Group>
+                    <Form.Group inline fluid>
+                        <label>모국어</label>
+                        <Controller
+                            as={<Form.Input placeholder='예) 한국어' error={errorHandler(errors.foreign_experience_country)} />}
+                            control={control}
+                            rules={{
+                                required: true
+                            }}
+                            name='mother_tongue' />
                     </Form.Group>
                     <Divider style={{margin: '2em'}} />
                     <Header as={'h3'}>실험 동의</Header>

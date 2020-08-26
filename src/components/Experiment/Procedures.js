@@ -110,7 +110,8 @@ const JudgementTest = (props) => {
         <>
             <div className="instruction">
                 <div className="comment bold">제시되었던 문장의 자연스러움을 평가해 주세요.</div>
-                <div className="comment">문장이 자연스러웠다면 O, 자연스럽지 않았다면 X를 <br /> 키보드의 방향키를 이용해 선택해 주세요.</div>
+                <div className="comment">문장이 자연스러웠다면 O, 자연스럽지 않았다면 X를 </div>
+                <div className="comment">키보드의 방향키를 이용해 선택해 주세요.</div>
                 <div className="comment">선택을 완료한 후에는 Space Bar를 눌러 다음으로 진행하세요.</div>
             </div>
             <div className="choiceSet">
