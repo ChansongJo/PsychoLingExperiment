@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useEventListener from "@use-it/event-listener";
 import "./Experiment.css";
 import CorsiTest from "../CorsiTest";
@@ -6,22 +6,36 @@ import CorsiTest from "../CorsiTest";
 // https://github.com/donavon/use-event-listener
 
 const PROGRESS_KEY = [" "];
-const CHOICE_KEY = ["ArrowRight", "ArrowLeft"];
+const CHOICE_KEY = ["ㄹ", "f", "F", "ㅓ", "j", "J"];
+const CORRECT_KEY = CHOICE_KEY.slice(0, 3)
+const INCORRECT_KEY = CHOICE_KEY.slice(3, 6)
+const BREAK_INDEX = 40
 
 
 const ExperimentHandler = (props) => {
     const [ready, setReady] = useState(false);
+    const [breakpoint, setBreakpoint] = useState(false)
     const isExperimentEnd = props.context.isExperimentEnd
+    const order = props.context.order
 
     useEffect(
         () => {
             if (!isExperimentEnd) {
-                const timer1 = setTimeout(() => setReady(true), 1500);
-                return () => clearTimeout(timer1);
+                if (order >= BREAK_INDEX && order % BREAK_INDEX === 0) {
+                    setBreakpoint(true)
+                }
             }
         }
         , [props]
     );
+
+    useEffect(
+        () => {
+            if (!isExperimentEnd && !breakpoint) {
+                const timer1 = setTimeout(() => setReady(true), 1500);
+                return () => clearTimeout(timer1);}
+        }, [props, breakpoint]
+    )
 
     useEffect(
         () => {
@@ -31,20 +45,34 @@ const ExperimentHandler = (props) => {
     return (
         <>
             {!isExperimentEnd
-                ?
-                !ready ? <crosshair>+</crosshair>
-                    : <Reading {...props} />
-                :
-                <CorsiTest {...props} />}
+                ? !breakpoint
+                    ? !ready 
+                        ? <crosshair>+</crosshair>
+                        : <Reading {...props} />
+                    : <Breakpoint setBreak={setBreakpoint} />
+                : <CorsiTest {...props} />}
         </>
     );
 };
+
+const Breakpoint = (props) => {
+    const setBreak = props.setBreak
+    useEventListener("keydown", ({key}) => PROGRESS_KEY.includes(String(key) && setBreak(false)));
+
+    return <div>
+            Break
+            <div>
+                안내 문구 확정하여 전달 부탁드립니다...
+                SPACE bar를 누르면 다음으로 진행할 수 있습니다...
+            </div>
+            </div>
+}
 
 
 const Reading = (props) => {
     const context = props.context
 
-    const {sentence} = context.stimulus_data;
+    const { sentence } = context.stimulus_data;
     const maskedSentence = sentence.map(item => "__".repeat(item.length));
     const [renderedSentence, setRenderedSentence] = useState(maskedSentence);
     const [pointer, setPointer] = useState(0);
@@ -52,7 +80,7 @@ const Reading = (props) => {
     const [pressed, setPressed] = useState(false)
 
 
-    const spacebarHandler = ({key, timeStamp}) => {
+    const spacebarHandler = ({ key, timeStamp }) => {
         if (!pressed && PROGRESS_KEY.includes(String(key)) && !done) {
             setPressed(true)
             context.rawRT.push(timeStamp)
@@ -69,7 +97,7 @@ const Reading = (props) => {
     };
 
     useEventListener("keydown", spacebarHandler);
-    useEventListener("keyup", () => {setPressed(false)});
+    useEventListener("keyup", () => { setPressed(false) });
 
     useEffect(
         () => {
@@ -92,10 +120,11 @@ const JudgementTest = (props) => {
 
     const context = props.context
 
-    const keyPressHandler = ({key, timeStamp}) => {
+    const keyPressHandler = ({ key, timeStamp }) => {
+        console.log(key)
         if (answer === null && CHOICE_KEY.includes(String(key))) {
             context.judgementEndTimeStamp = timeStamp
-            setAnswer(String(key) === 'ArrowLeft' ? true : false)
+            setAnswer(CORRECT_KEY.includes(String(key)) ? true : false)
             setKeyResponse(String(key));
         } else if (answer !== null && PROGRESS_KEY.includes(String(key))) {
             context.setJudgementTestResult(answer)
@@ -109,27 +138,29 @@ const JudgementTest = (props) => {
     return (
         <>
             <div className="instruction">
-                <div className="comment bold">제시되었던 문장의 자연스러움을 평가해 주세요.</div>
-                <div className="comment">문장이 자연스러웠다면 O, 자연스럽지 않았다면 X를 </div>
-                <div className="comment">키보드의 방향키를 이용해 선택해 주세요.</div>
-                <div className="comment">선택을 완료한 후에는 Space Bar를 눌러 다음으로 진행하세요.</div>
+                <div className="comment">문장이 자연스러웠다면 키보드의 F키를,  </div>
+                <div className="comment">자연스럽지 않았다면 키보드의 J키를 이용해 선택해 주세요.</div>
             </div>
             <div className="choiceSet">
-                <div className="choiceBox" style={{backgroundColor: keyResponse === 'ArrowLeft' ? 'chartreuse' : null}}>
+                <div className="choiceBox" style={{backgroundColor: CORRECT_KEY.includes(keyResponse) ? 'chartreuse' : null }}>
                     <div className='choice'>
                         O
                             </div>
                     <div className="keyPress symbol">←</div>
-                    <div className="keyPress">왼쪽 화살표 키를 눌러 선택하세요</div>
+                    <div className="keyPress">f 키를 눌러 선택하세요</div>
                 </div>
-                <div className="choiceBox" style={{backgroundColor: keyResponse === 'ArrowRight' ? 'tomato' : null}}>
+                <div className="choiceBox" style={{ backgroundColor: INCORRECT_KEY.includes(keyResponse) ? 'tomato' : null }}>
                     <div className='choice'>
                         X
                             </div>
                     <div className="keyPress symbol">→</div>
-                    <div className="keyPress">오른쪽 화살표 키를 눌러 선택하세요</div>
+                    <div className="keyPress">j 키를 눌러 선택하세요</div>
                 </div>
+                
             </div>
+            <div className='instruction'>
+                    <div className="comment">선택을 완료한 후에는 Space Bar를 눌러 다음으로 진행하세요.</div>
+                </div>
         </>
     );
 };

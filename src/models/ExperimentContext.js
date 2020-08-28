@@ -59,8 +59,8 @@ export class ExperimentContext extends Model {
         this.__obj['judgementEndTimeStamp'] = v
     }
 
-    set order(v) {
-        this.__obj['order'] = v
+    get order() {
+       return this.__obj['order']
     }
 
     get judgementEndTimeStamp() {
