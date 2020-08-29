@@ -49,7 +49,7 @@ function TrialLoop({ stimulusSet, id, mode }) {
         <div className='experiment-body'>
             {!ready 
                 ? <div className='instruction'>
-                    <div className='comment'>지금부터 실험을 시작하겠습니다.</div>
+                    <div className='comment'>지금부터 {mode==='real'? '실험' : '연습'}을 시작하겠습니다.</div>
                     <div className='comment'>실험을 진행하시는 동안에는, 조용한 곳에 혼자 계십시오.</div>
                     {mode === 'real' && <div>
                         <div className='comment'>실험 문장은 총 120개 이며, 40문장 당 한 번씩,</div>
