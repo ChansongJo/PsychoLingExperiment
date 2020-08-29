@@ -48,7 +48,7 @@ stimuli {
 .choiceSet {
     display: flex;
     justify-content: space-between;
-    width: 40vw;
+    width: 60vw;
 }
 
 .choiceBox {

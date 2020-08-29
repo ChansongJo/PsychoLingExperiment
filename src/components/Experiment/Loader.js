@@ -47,14 +47,16 @@ function TrialLoop({ stimulusSet, id, mode }) {
 
     return (
         <div className='experiment-body'>
-            {mode === 'real' && !ready 
+            {!ready 
                 ? <div className='instruction'>
                     <div className='comment'>지금부터 실험을 시작하겠습니다.</div>
                     <div className='comment'>실험을 진행하시는 동안에는, 조용한 곳에 혼자 계십시오.</div>
-                    <div className='comment'>실험 문장은 총 120개 이며, 40문장 당 한 번씩,</div>
-                    <div className='comment'>총 두 번의 휴식 시간을 드립니다.</div>
-                    <div className='comment'>휴식 시간 전까지는, 본인의 읽기 속도에 맞추어</div>
-                    <div className='comment'>침착하게 진행하시면 됩니다.</div>
+                    {mode === 'real' && <div>
+                        <div className='comment'>실험 문장은 총 120개 이며, 40문장 당 한 번씩,</div>
+                        <div className='comment'>총 두 번의 휴식 시간을 드립니다.</div>
+                        <div className='comment'>휴식 시간 전까지는, 본인의 읽기 속도에 맞추어</div>
+                        <div className='comment'>침착하게 진행하시면 됩니다.</div>
+                    </div>}
                     <div className='comment'>준비가 되셨으면, SPACE bar를 눌러 진행하여 주십시오.</div>
                 </div>
                 : context !== null && <InitExperiment context={context} setTrialDone={setTrialDone} mode={mode} />}
