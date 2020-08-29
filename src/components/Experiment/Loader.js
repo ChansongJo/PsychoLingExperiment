@@ -1,19 +1,22 @@
-import React, {useState, useEffect} from "react";
-import {useParams, useHistory} from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory } from 'react-router-dom';
 import InitExperiment from "./Procedures";
-import {ExperimentContext} from "../../models/ExperimentContext"
+import useEventListener from "@use-it/event-listener";
+
+import { ExperimentContext } from "../../models/ExperimentContext"
 import * as Api from "../../api"
 import './Experiment.css';
+const PROGRESS_KEY = [" "];
 
-function TrialLoop({stimulusSet, id, mode}) {
+function TrialLoop({ stimulusSet, id, mode }) {
     const [trialDone, setTrialDone] = useState(true);
-
+    const [ready, setReady] = useState(false);
     const [context, setContext] = useState(null);
     const [results, setResults] = useState([])
     const [count, setCount] = useState(-1)
 
 
-
+    useEventListener('keydown', ({ key }) => { !ready && PROGRESS_KEY.includes(String(key)) && setReady(true) })
 
     useEffect(
         () => {
@@ -24,9 +27,9 @@ function TrialLoop({stimulusSet, id, mode}) {
 
                 let _context
                 if (stimulus !== undefined) {
-                    _context = new ExperimentContext({group, stimulus_data: stimulus, stimulus: stimulus.id, session_id: id, order: count + 1});
+                    _context = new ExperimentContext({ group, stimulus_data: stimulus, stimulus: stimulus.id, session_id: id, order: count + 1 });
                 } else {
-                    _context = new ExperimentContext({group, session_id: id})
+                    _context = new ExperimentContext({ group, session_id: id })
                     _context.isExperimentEnd = true
                 }
 
@@ -44,13 +47,23 @@ function TrialLoop({stimulusSet, id, mode}) {
 
     return (
         <div className='experiment-body'>
-            {context !== null && <InitExperiment context={context} setTrialDone={setTrialDone} mode={mode} />}
+            {mode === 'real' && !ready 
+                ? <div className='instruction'>
+                    <div className='comment'>지금부터 실험을 시작하겠습니다.</div>
+                    <div className='comment'>실험을 진행하시는 동안에는, 조용한 곳에 혼자 계십시오.</div>
+                    <div className='comment'>실험 문장은 총 120개 이며, 40문장 당 한 번씩,</div>
+                    <div className='comment'>총 두 번의 휴식 시간을 드립니다.</div>
+                    <div className='comment'>휴식 시간 전까지는, 본인의 읽기 속도에 맞추어</div>
+                    <div className='comment'>침착하게 진행하시면 됩니다.</div>
+                    <div className='comment'>준비가 되셨으면, SPACE bar를 눌러 진행하여 주십시오.</div>
+                </div>
+                : context !== null && <InitExperiment context={context} setTrialDone={setTrialDone} mode={mode} />}
         </div>
     );
 }
 
-export default function Experiment({mode = 'real'}) {
-    const {id} = useParams();
+export default function Experiment({ mode = 'real' }) {
+    const { id } = useParams();
     const [stimulusSet, setStimulusSet] = useState(null)
     const [valid, setValid] = useState(false)
     const history = useHistory()
@@ -73,7 +86,7 @@ export default function Experiment({mode = 'real'}) {
     }
 
     const fetchStimuli = async () => {
-        await Api.getStimuli({id}).then(
+        await Api.getStimuli({ id }).then(
             res => {
                 console.log(res.data)
                 setStimulusSet(res.data)
@@ -81,7 +94,7 @@ export default function Experiment({mode = 'real'}) {
         ).catch(e => console.log(e))
     }
     const validateUser = async (id) => {
-        await Api.getUser({id}).then(
+        await Api.getUser({ id }).then(
             res => {
                 const finished = res.data.finished
                 if (!finished) {
@@ -121,7 +134,7 @@ export default function Experiment({mode = 'real'}) {
                     <span> session-id : {id}</span>
                 </div>
             </div >
-            {stimulusSet !== null && < TrialLoop stimulusSet={{...stimulusSet}} mode={mode} id={id} />}
+            {stimulusSet !== null && < TrialLoop stimulusSet={{ ...stimulusSet }} mode={mode} id={id} />}
 
         </>
     )

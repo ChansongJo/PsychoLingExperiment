@@ -59,12 +59,10 @@ const Breakpoint = (props) => {
     const setBreak = props.setBreak
     useEventListener("keydown", ({key}) => PROGRESS_KEY.includes(String(key) && setBreak(false)));
 
-    return <div>
-            Break
-            <div>
-                안내 문구 확정하여 전달 부탁드립니다...
-                SPACE bar를 누르면 다음으로 진행할 수 있습니다...
-            </div>
+    return <div className='instruction'>
+            <div className='comment'>지금은 휴식시간입니다.</div>
+            <div className='comment'>실험 중이오니, 휴식 시간이 너무 지체되지 않기를 바랍니다.</div>
+            <div className='comment'>휴식이 완료되면 SPACE bar를 눌러 다음으로 진행하세요.</div>
             </div>
 }
 
@@ -146,14 +144,14 @@ const JudgementTest = (props) => {
                     <div className='choice'>
                         O
                             </div>
-                    <div className="keyPress symbol">←</div>
+                    <div className="keyPress symbol">F</div>
                     <div className="keyPress">f 키를 눌러 선택하세요</div>
                 </div>
                 <div className="choiceBox" style={{ backgroundColor: INCORRECT_KEY.includes(keyResponse) ? 'tomato' : null }}>
                     <div className='choice'>
                         X
                             </div>
-                    <div className="keyPress symbol">→</div>
+                    <div className="keyPress symbol">J</div>
                     <div className="keyPress">j 키를 눌러 선택하세요</div>
                 </div>
                 

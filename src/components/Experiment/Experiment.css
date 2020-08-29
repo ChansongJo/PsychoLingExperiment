@@ -26,7 +26,7 @@ stimuli {
 
 .instruction {
     text-align: center;
-    font-size: 3rem;
+    font-size: 2.5rem;
 
 }
 
@@ -48,7 +48,7 @@ stimuli {
 .choiceSet {
     display: flex;
     justify-content: space-between;
-    width: 75vw;
+    width: 40vw;
 }
 
 .choiceBox {
