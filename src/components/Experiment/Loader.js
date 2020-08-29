@@ -50,8 +50,8 @@ function TrialLoop({ stimulusSet, id, mode }) {
             {!ready 
                 ? <div className='instruction'>
                     <div className='comment'>지금부터 {mode==='real'? '실험' : '연습'}을 시작하겠습니다.</div>
-                    <div className='comment'>실험을 진행하시는 동안에는, 조용한 곳에 혼자 계십시오.</div>
                     {mode === 'real' && <div>
+                        <div className='comment'>실험을 진행하시는 동안에는, 조용한 곳에 혼자 계십시오.</div>
                         <div className='comment'>실험 문장은 총 120개 이며, 40문장 당 한 번씩,</div>
                         <div className='comment'>총 두 번의 휴식 시간을 드립니다.</div>
                         <div className='comment'>휴식 시간 전까지는, 본인의 읽기 속도에 맞추어</div>
@@ -70,9 +70,9 @@ export default function Experiment({ mode = 'real' }) {
     const [valid, setValid] = useState(false)
     const history = useHistory()
     const sentenceList = [
-        "철수는 어제 학교에 갔다가 그냥 돌아왔다",
-        "영희는 그런 철수가 한심하게 느껴졌다",
-        "오늘 서울의 날씨는 비가 올 예정임"
+        "철수는 어제 학교에 갔다가 그냥 돌아왔다.",
+        "영희는 그런 철수가 한심하게 느껴졌다.",
+        "오늘 서울의 날씨는 비가 올 예정임."
     ];
     const PracticeStimulusSet =
     {
