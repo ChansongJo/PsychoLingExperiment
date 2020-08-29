@@ -20,17 +20,6 @@ const ExperimentHandler = (props) => {
 
     useEffect(
         () => {
-            if (!isExperimentEnd) {
-                if (order >= BREAK_INDEX && order % BREAK_INDEX === 0) {
-                    setBreakpoint(true)
-                }
-            }
-        }
-        , [props]
-    );
-
-    useEffect(
-        () => {
             if (!isExperimentEnd && !breakpoint) {
                 const timer1 = setTimeout(() => setReady(true), 1500);
                 return () => clearTimeout(timer1);}
@@ -40,10 +29,16 @@ const ExperimentHandler = (props) => {
     useEffect(
         () => {
             setReady(false);
+            setBreakpoint(false)
+            if (!isExperimentEnd) {
+                if (order >= BREAK_INDEX && order % BREAK_INDEX === 0) {
+                    setBreakpoint(true)
+                }
+            }
         }, [props]
     );
     return (
-        <>
+        <>  
             {!isExperimentEnd
                 ? !breakpoint
                     ? !ready 
