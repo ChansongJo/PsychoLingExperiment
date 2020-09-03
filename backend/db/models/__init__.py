@@ -33,10 +33,10 @@ class Subject(models.Model):
         return f'{self.session_id} - {self.age} - {self.gender }'
 
     def to_representation(self):
-        return [str(self.session_id), self.age, self.gender, self.academic_background, self.foreign_experience_duration, self.foreign_experience_age, self.corsi_span]
+        return [str(self.session_id), self.age, self.gender, self.group, self.academic_background, self.foreign_experience_duration, self.foreign_experience_age, self.corsi_span]
 
     def get_representation_columns(self):
-        return ['id', 'age', 'gender',
+        return ['id', 'age', 'gender', 'group',
                 'academic_background', 'foriegn_experience_duration', 'foriegn_experience_age', 'corsi_span']
 
 

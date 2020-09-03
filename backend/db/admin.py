@@ -55,4 +55,4 @@ class SubjectAdmin(ImportExportModelAdmin):
 @admin.register(Stimulus)
 class StimulusAdmin(ImportExportModelAdmin):
     resource_class = StimulusResource
-    list_filter = ('is_grammatical', 'type', 'group')
+    list_filter = ('is_grammatical', 'type', 'group', 'id')
