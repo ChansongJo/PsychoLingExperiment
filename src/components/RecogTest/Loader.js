@@ -75,7 +75,7 @@ export default function RecogTest({ mode = 'real' }) {
         await Api.getUser({ id }).then(
             res => {
                 const recogResult = res.data.recognition_test_result
-                if (!recogResult !== -1) {
+                if (recogResult === -1) {
                     setValid(true)
                 } else {
                     alert('검사 결과가 이미 존재합니다. 본 검사 페이지로 이동합니다.')
