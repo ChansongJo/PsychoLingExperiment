@@ -3,6 +3,7 @@ import useEventListener from "@use-it/event-listener";
 import "./Experiment.css";
 import CorsiTest from "../CorsiTest";
 import { Recognition } from "./Tests/Recognition";
+import { useParams, useHistory } from "react-router-dom";
 
 // https://github.com/donavon/use-event-listener
 
@@ -28,7 +29,7 @@ const ExperimentHandler = (props) => {
             setReady(false);
             setBreakpoint(false)
             if (!isExperimentEnd) {
-                if (order >= BREAK_INDEX && order % BREAK_INDEX === 0) {
+                if (order === BREAK_INDEX) {
                     setBreakpoint(true)
                 }
             }
@@ -42,7 +43,7 @@ const ExperimentHandler = (props) => {
                         ? <crosshair>+</crosshair>
                         : <Recognition {...props} />
                     : <Breakpoint setBreak={setBreakpoint} />
-                : <CorsiTest {...props} />}
+                : <Final {...props} mode='real' />}
         </>
     );
 };
@@ -52,12 +53,39 @@ const Breakpoint = (props) => {
     useEventListener("keydown", ({key}) => PROGRESS_KEY.includes(String(key) && setBreak(false)));
 
     return <div className='instruction'>
-            <div className='comment'>지금은 휴식시간입니다.</div>
-            <div className='comment'>실험 중이오니, 휴식 시간이 너무 지체되지 않기를 바랍니다.</div>
-            <div className='comment'>휴식이 완료되면 SPACE bar를 눌러 다음으로 진행하세요.</div>
-            </div>
+            <div className='comment'>이제 본 검사를 실시하겠습니다.</div>
+            <div className='comment'>준비가 되었으면, 스페이스바를 눌러 다음으로 진행하세요.</div>
+    </div>
 }
 
+
+
+const Final = ({mode, context, corsiSpan}) => {
+    const { id } = useParams()
+    const history = useHistory()
+
+    useEffect(
+        () => {
+            if (mode === 'real') {
+                let score = 0
+                for (const i of context.results.slice(3,)) {
+                    if (i) score++
+                }
+                console.log('score', score)
+                // uploadResults(context.sessionId, {corsiSpan, results: context.results, group: context.group})
+                alert(
+                    "사전 검사가 종료 되었습니다. 본 실험 안내 페이지로 이동합니다."
+                )
+                // 링크 이동
+                history.push(`/${id}`)
+            }
+        }, []
+    )
+    return (
+        <>
+        </>
+    );
+};
 export default ExperimentHandler;
 
 

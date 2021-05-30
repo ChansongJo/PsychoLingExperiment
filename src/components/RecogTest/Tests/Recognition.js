@@ -26,6 +26,9 @@ export const Recognition = (props) => {
             setKeyResponse(String(key));
         } else if (answer !== null && PROGRESS_KEY.includes(String(key))) {
             context.correct = answer === context.stimulus.answer
+            props.context.order < 3 && alert(
+                context.correct ?  "정답입니다." : "오답입니다."
+            )
             setDone(true);
         }
     };
@@ -42,7 +45,7 @@ export const Recognition = (props) => {
     <>
         <div className="instruction">
             <div className="comment bigger">{question}</div>
-            <div className="comment"><Image src={img} style={{height: '300px'}}/></div>
+            {img && <div className="comment"><Image src={img} style={{height: '300px'}}/></div>}
 
         </div>
         <div className="choiceSet">
@@ -58,7 +61,9 @@ export const Recognition = (props) => {
                 </div>
                 <div className="keyPress">→ 키를 눌러 선택하세요</div>
             </div>
-            
+        </div>
+        <div className='instruction'>
+            <div className="comment less">선택을 완료한 후에는 Space Bar를 눌러 다음으로 진행하세요.</div>
         </div>
     </>
   );
