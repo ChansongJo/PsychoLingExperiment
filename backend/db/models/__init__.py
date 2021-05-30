@@ -28,6 +28,7 @@ class Subject(models.Model):
         ('F', 'F'),
     ))
     corsi_span = models.IntegerField(blank=True, default=-1)
+    recognition_test_result = models.IntegerField(blank=True, default=-1)
 
     def __str__(self):
         return f'{self.session_id} - {self.age} - {self.gender }'
