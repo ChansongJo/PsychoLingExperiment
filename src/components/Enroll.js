@@ -60,7 +60,7 @@ const Enroll = () => {
 
                 alert(`실험 세션이 성공적으로 생성되었습니다. <${res.data.session_id}>`)
                 // 링크 이동
-                history.push(`/${res.data.session_id}`)
+                history.push(`/${res.data.session_id}/recog`)
             }
 
         ).catch(e => {

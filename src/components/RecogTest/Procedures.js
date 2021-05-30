@@ -4,6 +4,7 @@ import "./Experiment.css";
 import CorsiTest from "../CorsiTest";
 import { Recognition } from "./Tests/Recognition";
 import { useParams, useHistory } from "react-router-dom";
+import { patchUserData } from '../../api'
 
 // https://github.com/donavon/use-event-listener
 
@@ -64,6 +65,14 @@ const Final = ({mode, context, corsiSpan}) => {
     const { id } = useParams()
     const history = useHistory()
 
+    const uploadResults = async (id, score) => {
+        await patchUserData(id, {'recognition_test_result': score}).then(
+            console.log('recog test data is saved')
+        ).catch(
+            e => console.log(e)
+        )
+    }
+
     useEffect(
         () => {
             if (mode === 'real') {
@@ -71,8 +80,8 @@ const Final = ({mode, context, corsiSpan}) => {
                 for (const i of context.results.slice(3,)) {
                     if (i) score++
                 }
-                console.log('score', score)
-                // uploadResults(context.sessionId, {corsiSpan, results: context.results, group: context.group})
+                // console.log('score', score)
+                uploadResults(id, score)
                 alert(
                     "사전 검사가 종료 되었습니다. 본 실험 안내 페이지로 이동합니다."
                 )
