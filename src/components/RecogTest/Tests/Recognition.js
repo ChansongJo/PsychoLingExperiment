@@ -31,10 +31,10 @@ export const Recognition = (props) => {
 
   const keyPressHandler = ({ key }) => {
         console.log(key)
-        if (ready && answer === null && CHOICE_KEY.includes(String(key))) {
+        if ((!isTwoPage || ready) && answer === null && CHOICE_KEY.includes(String(key))) {
             setAnswer(CORRECT_KEY.includes(String(key)) ? true : false)
             setKeyResponse(String(key));
-        } else if ( ready && answer !== null && PROGRESS_KEY.includes(String(key))) {
+        } else if ((!isTwoPage || ready) && answer !== null && PROGRESS_KEY.includes(String(key))) {
             context.correct = answer === correctAnswer
             props.context.order < 3 && alert(
                 context.correct ?  "정답입니다." : "오답입니다."
@@ -69,7 +69,7 @@ const CommonItem = ({question, img, keyResponse}) => (
     <>
         <div className="instruction">
             <div className="comment bigger">{question}</div>
-            {img && <div className="comment"><Image src={img}/></div>}
+            {img && <div className="comment"><Image src={img} style={{height: '300px'}}/></div>}
         </div>
         <div className="choiceSet">
             <div className="choiceBox" style={{backgroundColor: CORRECT_KEY.includes(keyResponse) ? 'chartreuse' : null }}>
