@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, Route, BrowserRouter as Router, Redirect, Switch} from 'react-router-dom';
 import Experiment from "./components/Experiment/Loader";
+import RecogTest from "./components/RecogTest/Loader";
 import Instruction from "./components/Instruction";
 import Enroll from "./components/Enroll";
 import HomePage from "./components/MainPage";
@@ -21,6 +22,7 @@ function App() {
         <Route path='/enroll' exact component={Enroll} />
         <Route path='/thanks' exact component={ThanksPage} />
         <Route path='/corsi' exact component={CorsiTest} />
+        <Route path='/:id/recog' exact component={RecogTest} />
         <Route path='/:id' exact component={Instruction} />
         <Route path='/:id/run' exact component={Experiment} />
         <Route component={Page404} />

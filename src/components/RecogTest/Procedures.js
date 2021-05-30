@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import useEventListener from "@use-it/event-listener";
 import "./Experiment.css";
 import CorsiTest from "../CorsiTest";
-import { SelfPacedReading } from "./Tests/SelfPacedReading";
+import { Recognition } from "./Tests/Recognition";
 
 // https://github.com/donavon/use-event-listener
 
 const PROGRESS_KEY = [" "];
-const BREAK_INDEX = 40
+const BREAK_INDEX = 3
 
 const ExperimentHandler = (props) => {
     const [ready, setReady] = useState(false);
@@ -40,7 +40,7 @@ const ExperimentHandler = (props) => {
                 ? !breakpoint
                     ? !ready 
                         ? <crosshair>+</crosshair>
-                        : <SelfPacedReading {...props} />
+                        : <Recognition {...props} />
                     : <Breakpoint setBreak={setBreakpoint} />
                 : <CorsiTest {...props} />}
         </>

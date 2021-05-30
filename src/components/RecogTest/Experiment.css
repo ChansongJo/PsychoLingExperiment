@@ -1,0 +1,98 @@
+.experiment-header {
+    background-color: #f1f9ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.experiment-body {
+    background-color: #f1f9ff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: black;
+}
+
+.link {
+    color: #61dafb;
+}
+
+stimuli {
+    font-size: 3rem;
+}
+
+.instruction {
+    text-align: center;
+    font-size: 2.5rem;
+
+}
+
+.comment {
+    font-size: smaller;
+    margin: 4rem 0;
+}
+
+.bigger {
+    font-size: larger;
+}
+
+.less {
+    font-size: smaller;
+    margin: 2.5rem 0;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.status {
+    display: flex;
+    justify-content: space-between;
+    color: gray
+}
+
+.choiceSet {
+    display: flex;
+    justify-content: space-between;
+    width: 60vw;
+}
+
+.choiceBox {
+    align-items: center;
+    border: 0.1em solid;
+    border-color: black;
+    border-radius: 16%;
+    padding: 3rem;
+    line-height: 3rem;
+    margin-bottom: 4rem;
+    margin-top: 2rem;
+}
+
+.choice {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 4rem;
+}
+
+.keyPress {
+    text-align: center;
+    font-size: smaller;
+
+    color: gray
+}
+
+.symbol {
+    font-size: 3.5rem;
+
+
+}
+
+crosshair {
+    font-size: 4rem;
+
+    font-weight: bolder;
+}
