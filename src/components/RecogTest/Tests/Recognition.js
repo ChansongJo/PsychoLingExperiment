@@ -82,7 +82,7 @@ const CommonItem = ({question, img, keyResponse}) => (
                 <div className='choice'>
                     예
                 </div>
-                <div className="keyPress">←→ 키를 눌러 선택하세요</div>
+                <div className="keyPress">→ 키를 눌러 선택하세요</div>
             </div>
         </div>
         <div className='instruction'>

@@ -51,22 +51,17 @@ function Instruction() {
                         </Header.Subheader>
                     </Header>
                     <Header as={'h2'}>
-                        실험 설계
+                        실험 내용
                         <Header.Subheader style={{marginTop: '1em'}}>
                             <p style={{lineHeight: '1.5em', fontSize: '1.2rem', padding: '0 1em'}}>
-                                본 실험은 두 단계로 나누어져 있습니다.<br /><br/>
-                                <div className='bold'>(1) 문장 읽기:</div>
-                                실험 참여자는 주어진 문장을 읽으면서 반응을 합니다. <br />
-                                이 실험은 참여자의 한국어 문법 능력을 평가하기 위한 검사가 아닙니다. <br />
-                                각 문항에는 정답이 정해져 있지 않습니다. <br />
-                                본인의 읽기 속도에 따라 읽고, 이해되는대로 판단한 후, 반응하시면 됩니다. <br />
+                            {'본 실험은 <언어 검사>와 <인지 검사>로 진행됩니다.'}<br /><br/>
+                                <div className='bold'>(1) 언어 검사:</div>
+                                참여자는 주어진 문장을 한 단어씩 읽으면서 반응을 합니다. <br />
+                                자신의 읽기 속도에 따라 읽고, 이해되는대로 반응하십시오. <br />
                                 반응한 후에는 “SPACE BAR”를 눌러 다음 화면을 보면 됩니다.<br /><br/>
                                 <div className='bold'>(2) 인지 검사:</div>
-                                실험 참여자는 인지능력 검사를 진행합니다. <br />
-                                이 검사는 참여자의 지적 능력을 평가하기 위한 도구가 아닙니다. <br />
-                                이 검사의 결과는 연구의 목적에 따라 참고자료로만 사용됩니다. <br />
-                                안내에 따라 반응하시고, 반응한 후에는 “SPACE BAR”를 눌러 <br/>
-                                검사를 완료해주시기 바랍니다.<br />
+                                실험 참여자는 안내에 따라 반응합니다. <br />
+                                반응한 후에는 “SPACE BAR”를 눌러 검사를 완료하십시오. <br />
                             </p>
                         </Header.Subheader>
                     </Header>
@@ -76,22 +71,14 @@ function Instruction() {
                             <p style={{lineHeight: '1.5em', fontSize: '1.2rem', padding: '0 1em'}}>
                                 <ol>
                                     <li>처음 화면에 "+" 표시가 나타납니다.</li>
-                                    <li>잠시 후 화면이 바뀌면 빈 문장이 나타납니다.</li>
                                     <li>실험을 시작할 준비가 되면, “SPACE BAR”를 누르십시오.</li>
                                     <li>“SPACE BAR”를 누를 때마다 문장 안의 단어가 하나 씩 제시됩니다. </li>
-                                    <li>문장이 완전히 제시된 이후에는 관련된 질문이 제시됩니다.  <br />
-                                        답변을 선택한 후, 반응하십시오. 	 <br />
-                                        반응 후에는 “SPACE BAR”를 눌러 다음 문장으로 진행하십시오.<br />
-                                        (실험 문장은 총 120개임.) <br />
+                                    <li>문장이 완성되면, 관련된 질문이 제시됩니다.  <br />
+                                        답변을 선택하십시오. <br />
+                                        다음 문제는 “SPACE BAR”를 눌러 진행하십시오. <br />
+                                        (실험 문장은 총 120개입니다.) <br />
                                     </li>
-
-                                    <li>문장 읽기의 첫번째 과제를 마친 후 <br/>
-                                        두번째 단계에서는 인지능력 검사를 실시합니다.</li>
-                                    <li>주어진 안내에 따라 마우스로 화면에 나타나는 상자를 선택해 주십시오.</li>
-                                    <li>선택을 완료한 후에는 완료 버튼을 눌러 종료할 수 있습니다.</li>
-
-                                    <li> 본 과제는 기억력이나 지능을 측정하는 검사가 아닙니다.  <br />
-                                        생각나는 대로 응답 하십시오.</li>
+                                    <li>{'<언어검사> 후에는 <인지검사>가 시작됩니다.'}</li>
                                 </ol>
                             </p>
                         </Header.Subheader>
@@ -100,11 +87,9 @@ function Instruction() {
                         연습 해보기
                         <Header.Subheader style={{marginTop: '1em'}}>
                             <p style={{lineHeight: '1.5em', fontSize: '1.2rem', padding: '0 1em'}}>
-                                아래 버튼을 클릭하여 실험 연습을 진행해 보세요. <br/>
-                                연습 결과는 실험 결과에 포함되지 않습니다. <br/>
-                                실험 방식이 이해될 때까지 여러번 시도해 보셔도 괜찮습니다. <br />
-                                <br />
-                                연습을 진행하지 않으면 본 실험으로 넘어갈 수 없습니다!<br />
+                                연습의 결과는 연구에 포함되지 않습니다.<br/>
+                                따라서 실험 방식이 이해될 때까지 여러 번 시도해 보셔도 괜찮습니다.<br/>
+                                단, 연습을 진행하지 않으면 본 실험으로 넘어갈 수 없습니다!<br />
                             </p>
                         </Header.Subheader>
                         <div style={{marginTop: '1em', display: 'flex', justifyContent: 'center'}}>
