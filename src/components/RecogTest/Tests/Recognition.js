@@ -99,15 +99,15 @@ const TwoPageItem = ({question, ready, question_after, img, keyResponse}) => {
         </div>
         <>
         <div className="choiceSet">
-            <div className="choiceBox" style={{backgroundColor: CORRECT_KEY.includes(keyResponse) ? 'chartreuse' : null }}>
-                <div className='choice'>
-                    예
-                </div>
-                <div className="keyPress">← 키를 눌러 선택하세요</div>
-            </div>
             <div className="choiceBox" style={{ backgroundColor: INCORRECT_KEY.includes(keyResponse) ? 'tomato' : null }}>
                 <div className='choice'>
                     아니오
+                </div>
+                <div className="keyPress">← 키를 눌러 선택하세요</div>
+            </div>
+            <div className="choiceBox" style={{backgroundColor: CORRECT_KEY.includes(keyResponse) ? 'chartreuse' : null }}>
+                <div className='choice'>
+                    예
                 </div>
                 <div className="keyPress">→ 키를 눌러 선택하세요</div>
             </div>
