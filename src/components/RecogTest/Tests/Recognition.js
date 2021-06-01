@@ -31,7 +31,7 @@ export const Recognition = (props) => {
 
   const keyPressHandler = ({ key }) => {
         console.log(key)
-        if ((!isTwoPage || ready) && answer === null && CHOICE_KEY.includes(String(key))) {
+        if ((!isTwoPage || ready) && CHOICE_KEY.includes(String(key))) {
             setAnswer(CORRECT_KEY.includes(String(key)) ? true : false)
             setKeyResponse(String(key));
         } else if ((!isTwoPage || ready) && answer !== null && PROGRESS_KEY.includes(String(key))) {
