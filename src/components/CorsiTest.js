@@ -192,11 +192,11 @@ const CorsiInstruction = (props) => {
         <div className='instruction'>
             {!ready
                 ? <>
-                    <div className="comment">이 과제에서 당신은 마우스를 이용해야 합니다.</div>
+                    <div className="comment">이제 마우스를 이용해야 합니다.</div>
                     <div className="comment">화면에 9개의 오렌지 색 상자가 등장합니다.</div>
                     <div className="comment">상자 중 일부가 순서대로 노란색으로 반짝입니다.</div>
                     <div className="comment">신호음이 들리고 나면 앞서 반짝였던 순서에 맞추어 상자를 클릭하고 </div>
-                    <div className="comment"> 완료 버튼을 눌러주십시오.</div>
+                    <div className="comment">완료 버튼을 눌러주십시오.</div>
                     <div></div>
 
                     <div className="comment bold">준비가 완료되면 스페이스 바를 눌러 진행하세요.</div>
