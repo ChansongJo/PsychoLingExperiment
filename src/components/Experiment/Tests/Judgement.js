@@ -17,7 +17,7 @@ const Judgement = (props) => {
 
   const keyPressHandler = ({ key, timeStamp }) => {
       console.log(key)
-      if (CHOICE_KEY.includes(String(key))) {
+      if (answer === null && CHOICE_KEY.includes(String(key))) {
           context.judgementEndTimeStamp = timeStamp
           setAnswer(CORRECT_KEY.includes(String(key)) ? true : false)
           setKeyResponse(String(key));
