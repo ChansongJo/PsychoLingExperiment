@@ -49,7 +49,7 @@ function TrialLoop({ stimulusSet, id, mode }) {
                 ? <div className='instruction'>
                     <div className='comment bold'>안내문</div>
                     <div>
-                        <div className='comment'>다음 질문을 읽으시고 "예", "아니오" 로 답변하십시오.</div>
+                        <div className='comment'>다음 질문을 읽으시고 "예", "아니오" 로 응답하십시오.</div>
                         <div className='comment'>“예” 응답은 키보드 방향키 오른쪽 [→]을 누르십시오.</div>
                         <div className='comment'>“아니오” 응답은 키보드 방향키 왼쪽 [←]을 누르십시오.</div>
                         <div className='comment'>본 검사에 들어가기 전에 간단히 연습 문제를 해 보겠습니다.</div>
