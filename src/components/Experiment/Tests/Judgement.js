@@ -52,7 +52,7 @@ const Judgement = (props) => {
               
           </div>
           <div className='instruction'>
-                  <div className="comment">선택을 완료한 후에는 Space Bar를 눌러 다음으로 진행하세요.</div>
+                  <div className="comment">선택을 완료한 후에는 스페이스바를 눌러 다음으로 진행하세요.</div>
               </div>
       </>
   );

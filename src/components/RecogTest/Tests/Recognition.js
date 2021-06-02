@@ -86,7 +86,7 @@ const CommonItem = ({question, img, keyResponse}) => (
             </div>
         </div>
         <div className='instruction'>
-            <div className="comment less">선택을 완료한 후에는 Space Bar를 눌러 다음으로 진행하세요.</div>
+            <div className="comment less">선택을 완료한 후에는 스페이스바를 눌러 다음으로 진행하세요.</div>
         </div>
     </>
 )
@@ -113,7 +113,7 @@ const TwoPageItem = ({question, ready, question_after, img, keyResponse}) => {
             </div>
         </div>
         <div className='instruction'>
-            <div className="comment less">{ready && "선택을 완료한 후에는 Space Bar를 눌러 다음으로 진행하세요."}</div>
+            <div className="comment less">{ready && "선택을 완료한 후에는 스페이스바를 눌러 다음으로 진행하세요."}</div>
         </div>
         </>
     </>

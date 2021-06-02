@@ -54,7 +54,7 @@ const Breakpoint = (props) => {
     return <div className='instruction'>
             <div className='comment'>지금은 휴식시간입니다.</div>
             <div className='comment'>실험 중이오니, 휴식 시간이 너무 지체되지 않기를 바랍니다.</div>
-            <div className='comment'>휴식이 완료되면 SPACE bar를 눌러 다음으로 진행하세요.</div>
+            <div className='comment'>휴식이 완료되면 스페이스바를 눌러 다음으로 진행하세요.</div>
             </div>
 }
 

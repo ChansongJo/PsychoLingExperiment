@@ -54,7 +54,7 @@ function TrialLoop({ stimulusSet, id, mode }) {
                         <div className='comment'>“아니오” 응답은 키보드 방향키 왼쪽 [←]을 누르십시오.</div>
                         <div className='comment'>본 검사에 들어가기 전에 간단히 연습 문제를 해 보겠습니다.</div>
                     </div>
-                    <div className='comment'>준비가 되셨으면, SPACE bar를 눌러 진행하여 주십시오.</div>
+                    <div className='comment'>준비가 되셨으면, 스페이스바를 눌러 진행하여 주십시오.</div>
                 </div>
                 : context !== null && <InitExperiment context={context} setTrialDone={setTrialDone} mode={mode} />}
         </div>

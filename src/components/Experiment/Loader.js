@@ -57,7 +57,7 @@ function TrialLoop({ stimulusSet, id, mode }) {
                         <div className='comment'>휴식 시간 전까지는, 본인의 읽기 속도에 맞추어</div>
                         <div className='comment'>침착하게 진행하시면 됩니다.</div>
                     </div>}
-                    <div className='comment'>준비가 되셨으면, SPACE bar를 눌러 진행하여 주십시오.</div>
+                    <div className='comment'>준비가 되셨으면, 스페이스바를 눌러 진행하여 주십시오.</div>
                 </div>
                 : context !== null && <InitExperiment context={context} setTrialDone={setTrialDone} mode={mode} />}
         </div>
